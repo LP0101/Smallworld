@@ -14,8 +14,14 @@ int main() {
     Map::Link *bToD = a.addLink(b,d);
     Map::Link *fToB = a.addLink(f,b);
     Map::Link *eToB = a.addLink(e,b);
-    a.removeLink(bToC);
-    b->getAdjacent();
-//    b->removeNode(e);
+    Map::Link *dToC = a.addLink(d,c);
+    a.removeLink(bToD);
+    a.removeLink(dToC);
+    //b->getAdjacent();
+    if (d->getAdjacent().empty()){
+        cout << "yay" << endl;
+    }
+    a.removeNode(d);
+   // b->removeNode(e);
 //    b->getAdjacent();
 }

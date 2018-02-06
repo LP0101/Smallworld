@@ -5,6 +5,7 @@
 #ifndef PROJECT_MAP_H
 #define PROJECT_MAP_H
 
+#include <vector>
 #include <iostream>
 using namespace std;
 
@@ -26,9 +27,8 @@ public:
     //LINK METHODS
     Link* addLink(Node *a, Node *b);
     void removeLink(Map::Link *a);
+    bool removeNode(Node *a);
 
-private:
-    Node *seed;
 
 };
 
@@ -47,8 +47,8 @@ public:
     Map::Link *getLastOut();
     Map::Link *getLastIn();
     std::string getName();
-    void getAdjacent();
-    void removeNode(Node *a);
+    vector<Map::Node*> getAdjacent();
+//    void printAdjacent();
 
 };
 

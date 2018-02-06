@@ -4,8 +4,9 @@
 
 #include "map.h"
 #include <iostream>
-
+#include <vector>
 using namespace std;
+
 
 // LINKS
 Map::Link::Link(Node *a, Node *b){
@@ -16,11 +17,11 @@ Map::Link::Link(Node *a, Node *b){
     Map::Link *firstIn = b->getFirstIn();
     Map::Link *lastIn = b->getLastIn();
 
-    if(lastOut == NULL && firstOut == NULL){
+    if(lastOut == nullptr && firstOut == nullptr){
         a->firstOut = this;
         a->lastOut = this;
-        this -> previousOut = NULL;
-        this -> nextOut = NULL;
+        this -> previousOut = nullptr;
+        this -> nextOut = nullptr;
     }
     else{
         this->previousOut=lastOut;
@@ -40,6 +41,11 @@ Map::Link::Link(Node *a, Node *b){
         b->lastIn = this;
         this -> nextIn = nullptr;
     }
+    lastOut=nullptr;
+    firstOut = nullptr;
+    lastIn = nullptr;
+    lastOut = nullptr;
+
 
 }
 Map::Link::~Link() {
@@ -97,6 +103,16 @@ Map::Node *Map::addNode(std::string name) {
     Map::Node *node = new Map::Node(name);
     return node;
 }
+bool Map::removeNode(Node *a) {
+    if(!a->getAdjacent().empty()){
+        cout << "There are still links to " << a->getName() << ". Please remove them before deleting the node" << endl;
+        return false;
+    }
+    delete a;
+    a = nullptr;
+    return true;
+
+}
 
 Map::Node::Node(string a){
     name = a;
@@ -106,15 +122,14 @@ Map::Node::Node(string a){
      lastOut = nullptr;
 }
 
-void Map::Node::removeNode(Node *node) {
 
-}
-
-void Map::Node::getAdjacent() {
+vector<Map::Node*> Map::Node::getAdjacent() {
+    std::vector<Map::Node*> nodeList;
     if(firstOut != nullptr){
         Map::Link *a = firstOut;
         while(true){
             cout << a->to->getName() << endl;
+            nodeList.push_back(a->to);
             if(a->nextOut == nullptr){
                 a=nullptr;
                 break;
@@ -126,6 +141,7 @@ void Map::Node::getAdjacent() {
         Map::Link *b = firstIn;
         while(true){
             cout << b->from->getName() << endl;
+            nodeList.push_back(b->from);
             if(b -> nextIn == nullptr) {
                 b=nullptr;
                 break;
@@ -133,6 +149,7 @@ void Map::Node::getAdjacent() {
             b = b->nextIn;
         }
     }
+    return nodeList;
 }
 
 Map::Link* Map::Node::getFirstIn() {
