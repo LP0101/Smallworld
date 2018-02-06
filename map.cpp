@@ -41,7 +41,6 @@ Map::Link::Link(Node *a, Node *b){
         this -> nextIn = nullptr;
     }
 
-
 }
 
 void Map::addLink(Node *a, Node *b) {
@@ -70,6 +69,7 @@ void Map::Node::getAdjacent() {
         while(true){
             cout << a->to->getName() << endl;
             if(a->nextOut == nullptr){
+                a=nullptr;
                 break;
             }
             a = a->nextOut;
@@ -79,8 +79,10 @@ void Map::Node::getAdjacent() {
         Map::Link *b = firstIn;
         while(true){
             cout << b->from->getName() << endl;
-            if(b -> nextOut == nullptr)
+            if(b -> nextOut == nullptr) {
+                b=nullptr;
                 break;
+            }
             b = b->nextIn;
         }
     }
@@ -106,6 +108,5 @@ std::string Map::Node::getName() {
 
 
 //MAP
-Map::Map(){
-}
+Map::Map(){}
 

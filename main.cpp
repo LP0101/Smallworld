@@ -10,5 +10,6 @@ int main() {
     a.addLink(b,c);
     a.addLink(b,d);
     a.addLink(e,b);
-    e->getAdjacent();
+    b->getAdjacent();
+    b->getAdjacent();
 }

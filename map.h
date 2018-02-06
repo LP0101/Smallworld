@@ -22,7 +22,6 @@ public:
     Link* getFirstIn(Node *node);
     Link* getFirstOut(Node *node);
     Node *addNode(std::string name);
-    bool adjacent(Node *a, Node *b);
     bool removeLink(Node *from, Node *to);
     bool removeNode(Node *rip);
 
@@ -33,6 +32,9 @@ private:
     Node *seed;
 
 };
+
+
+
 
 class Map::Node{
     friend class Map::Link;
@@ -49,6 +51,9 @@ public:
     void getAdjacent();
 
 };
+
+
+
 
 class Map::Link{
     friend class Map::Node;
