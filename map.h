@@ -22,11 +22,10 @@ public:
     Link* getFirstIn(Node *node);
     Link* getFirstOut(Node *node);
     Node *addNode(std::string name);
-    bool removeLink(Node *from, Node *to);
-    bool removeNode(Node *rip);
 
     //LINK METHODS
-    void addLink(Node *a, Node *b);
+    Link* addLink(Node *a, Node *b);
+    void removeLink(Map::Link *a);
 
 private:
     Node *seed;
@@ -49,6 +48,7 @@ public:
     Map::Link *getLastIn();
     std::string getName();
     void getAdjacent();
+    void removeNode(Node *a);
 
 };
 
@@ -63,6 +63,7 @@ private:
 
 public:
     Link(Map::Node *from, Map::Node *to);
+    ~Link();
 };
 
 
