@@ -12,23 +12,25 @@ using namespace std;
 
 
 class Map {
-public:
+protected:
     class Node;
-
     class Link;
 
+public:
     //MAP methods
     Map();
 
     //NODE METHODS
     Link* getFirstIn(Node *node);
     Link* getFirstOut(Node *node);
-    Node *addNode(std::string name);
+    bool addNode(std::string name);
 
     //LINK METHODS
-    Link* addLink(Node *a, Node *b);
-    void removeLink(Map::Link *a);
-    bool removeNode(Node *a);
+    bool addLink(string from, string to);
+    bool removeLink(string from, string to);
+    bool removeNode(string name);
+    void printAdjacent(string node);
+
 
 private:
     std::map<string, Node*> nodes;
@@ -53,7 +55,6 @@ public:
     Map::Link *getLastIn();
     std::string getName();
     vector<Map::Node*> getAdjacent();
-//    void printAdjacent();
 
 };
 

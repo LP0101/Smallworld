@@ -91,19 +91,24 @@ Map::Link::~Link() {
     cout << "link destroyed" << endl;
 }
 
-Map::Link *Map::addLink(Node *a, Node *b) {
+bool Map::addLink(string from, string to) {
+    Map::Node *a = nodes[from];
+    Map::Node *b = nodes[to];
     Map::Link *link =  new Map::Link(a,b);
     links[a->getName() + "to" + b->getName()] = link;
-    return link;
+    return true;
 }
 string Map::Link::getFrom() {return from->getName();};
 string Map::Link::getTo() {return to->getName();};
-void Map::removeLink(Map::Link *a) {
+bool Map::removeLink(string x, string y) {
+    string link = x + "to" + y;
+    Map::Link *a = links[link];
     string from = a->getFrom();
     string to = a->getTo();
     links.erase(from + "to" + to);
     delete a;
     a = nullptr;
+    return true;
 
 
 }
@@ -112,12 +117,13 @@ void Map::removeLink(Map::Link *a) {
 
 
 //NODES
-Map::Node *Map::addNode(std::string name) {
+bool Map::addNode(std::string name) {
     Map::Node *node = new Map::Node(name);
     nodes[name] = node;
-    return node;
+    return true;
 }
-bool Map::removeNode(Node *a) {
+bool Map::removeNode(string name) {
+    Map::Node *a = nodes[name];
     if(!a->getAdjacent().empty()){
         cout << "There are still links to " << a->getName() << ". Please remove them before deleting the node" << endl;
         return false;
@@ -188,5 +194,9 @@ std::string Map::Node::getName() {
 
 //MAP
 Map::Map(){}
+
+void Map::printAdjacent(string node) {
+    nodes[node]->getAdjacent();
+}
 
 
