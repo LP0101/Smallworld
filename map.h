@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <iostream>
+#include <map>
 using namespace std;
 
 
@@ -28,6 +29,10 @@ public:
     Link* addLink(Node *a, Node *b);
     void removeLink(Map::Link *a);
     bool removeNode(Node *a);
+
+private:
+    std::map<string, Node*> nodes;
+    std::map<string, Link*> links;
 
 
 };
@@ -64,6 +69,8 @@ private:
 public:
     Link(Map::Node *from, Map::Node *to);
     ~Link();
+    string getFrom();
+    string getTo();
 };
 
 

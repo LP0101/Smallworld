@@ -5,6 +5,7 @@
 #include "map.h"
 #include <iostream>
 #include <vector>
+#include <map>
 using namespace std;
 
 
@@ -32,7 +33,7 @@ Map::Link::Link(Node *a, Node *b){
     if(firstIn == nullptr && lastIn == nullptr){
         b->firstIn = this;
         b->lastIn = this;
-        this->previousIn = NULL;
+        this->previousIn = nullptr;
         this->nextIn = NULL;
     }
     else{
@@ -45,6 +46,9 @@ Map::Link::Link(Node *a, Node *b){
     firstOut = nullptr;
     lastIn = nullptr;
     lastOut = nullptr;
+
+    string name=a->getName() + "to" + b->getName();
+
 
 
 }
@@ -84,14 +88,23 @@ Map::Link::~Link() {
             previousOut->nextOut = nextIn;
         }
     }
+    cout << "link destroyed" << endl;
 }
 
 Map::Link *Map::addLink(Node *a, Node *b) {
-    return new Map::Link(a,b);
+    Map::Link *link =  new Map::Link(a,b);
+    links[a->getName() + "to" + b->getName()] = link;
+    return link;
 }
+string Map::Link::getFrom() {return from->getName();};
+string Map::Link::getTo() {return to->getName();};
 void Map::removeLink(Map::Link *a) {
+    string from = a->getFrom();
+    string to = a->getTo();
+    links.erase(from + "to" + to);
     delete a;
     a = nullptr;
+
 
 }
 
@@ -101,6 +114,7 @@ void Map::removeLink(Map::Link *a) {
 //NODES
 Map::Node *Map::addNode(std::string name) {
     Map::Node *node = new Map::Node(name);
+    nodes[name] = node;
     return node;
 }
 bool Map::removeNode(Node *a) {
@@ -108,6 +122,7 @@ bool Map::removeNode(Node *a) {
         cout << "There are still links to " << a->getName() << ". Please remove them before deleting the node" << endl;
         return false;
     }
+    nodes.erase(a->getName());
     delete a;
     a = nullptr;
     return true;
@@ -173,4 +188,5 @@ std::string Map::Node::getName() {
 
 //MAP
 Map::Map(){}
+
 
