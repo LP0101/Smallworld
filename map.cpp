@@ -34,7 +34,7 @@ Map::Link::Link(Node *a, Node *b){
         b->firstIn = this;
         b->lastIn = this;
         this->previousIn = nullptr;
-        this->nextIn = NULL;
+        this->nextIn = nullptr;
     }
     else{
         this->previousIn=b->lastIn;
@@ -137,10 +137,13 @@ bool Map::removeNode(string name) {
 
 Map::Node::Node(string a){
     name = a;
-     firstIn = nullptr;
-     firstOut = nullptr;
-     lastIn = nullptr;
-     lastOut = nullptr;
+    firstIn = nullptr;
+    firstOut = nullptr;
+    lastIn = nullptr;
+    lastOut = nullptr;
+    faction = "a";
+    type = "";
+    reinforcements = 0;
 }
 
 
@@ -173,6 +176,39 @@ vector<Map::Node*> Map::Node::getAdjacent() {
     return nodeList;
 }
 
+vector<Map::Node*> Map::Node::getAdjacentControlled() {
+    std::vector<Map::Node*> nodeList;
+    if(firstOut != nullptr){
+        Map::Link *a = firstOut;
+        while(true){
+            if(a->to->faction==this->faction) {
+                cout << a->to->getName() << " Is allied" << endl;
+                nodeList.push_back(a->to);
+            }
+            if(a->nextOut == nullptr){
+                a=nullptr;
+                break;
+            }
+            a = a->nextOut;
+        }
+    }
+    if(firstIn != nullptr){
+        Map::Link *b = firstIn;
+        while(true){
+            if(b->from->faction==this->faction) {
+                cout << b->from->getName() << " Is allied" << endl;
+                nodeList.push_back(b->from);
+            }
+            if(b -> nextIn == nullptr) {
+                b=nullptr;
+                break;
+            }
+            b = b->nextIn;
+        }
+    }
+    return nodeList;
+}
+
 Map::Link* Map::Node::getFirstIn() {
     return firstIn;
 }
@@ -189,6 +225,8 @@ std::string Map::Node::getName() {
     return name;
 }
 
+bool Map::Node::setFaction(std::string fac) {faction = fac; return true;}
+
 
 
 
@@ -197,6 +235,13 @@ Map::Map(){}
 
 void Map::printAdjacent(string node) {
     nodes[node]->getAdjacent();
+}
+void Map::printAdjacentControlled(string node){
+    nodes[node]->getAdjacentControlled();
+}
+
+bool Map::setFaction(std::string node, std::string faction){
+    return nodes[node]->setFaction(faction);
 }
 
 
