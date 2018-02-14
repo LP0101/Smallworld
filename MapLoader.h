@@ -8,22 +8,25 @@
 
 #include <iostream>
 #include "map.h"
+#include <fstream>
+#include <sstream>
 
 using namespace std;
 
+
 class MapLoader {
 public:
-    MapLoader(string path);
-    map build();
+    MapLoader(std::string path);
+    Map build();
 
-private:
-    map m;
+
+    Map *m;
     string file;
     bool addNodes();
     bool addLinks();
-
-
-
+    string nodeList;
+    string linkLink;
+    string slurp(ifstream& in);
 };
 
 
