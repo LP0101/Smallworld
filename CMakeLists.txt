@@ -3,4 +3,4 @@ project(project)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(project main.cpp map.cpp map.h)
+add_executable(project main.cpp map.cpp map.h MapLoader.cpp MapLoader.h)
