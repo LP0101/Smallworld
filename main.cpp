@@ -6,12 +6,12 @@
 using namespace std;
 
 int main() {
-    MapLoader *l = new MapLoader("Maps/ThreePlayer.map");
+    MapLoader *l = new MapLoader("Maps/ThreePlayersR2.map");
     l->separate();
     l->addNodes();
     l->addLinks();
 
-    l->m->printAdjacent("M3");
+    l->m->printAdjacent("Fa3");
 
 //    string test = "a,b,c";
 //    string delimiter = ",";

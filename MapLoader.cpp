@@ -54,14 +54,12 @@ bool MapLoader::addNodes(){
     string delimiter = "|";
     vector<string> mods;
 
-//    while(getline(nodeBuilder,line)){
-//        cout << line << endl;
-//    }
+
     while(getline(nodeBuilder,line)){
         delimiter = "|";
         name = line.substr(0, line.find(delimiter));
         m->addNode(name);
-        cout << "Name: " << name << endl;
+//        cout << "Name: " << name << endl;
         line.erase(0, line.find(delimiter) + delimiter.length());
         m->setTerrain(name, line.substr(0, line.find(delimiter))); //set terrain
         line.erase(0, line.find(delimiter) + delimiter.length());
@@ -92,7 +90,7 @@ bool MapLoader::addLinks() {
     string delimiter=",";
     
     while(getline(linkBuilder, line)){
-        cout << line << endl;
+//        cout << line << endl;
         from =  line.substr(0, line.find(":"));
         line.erase(0, line.find(":") + delimiter.length());
         while(true){
