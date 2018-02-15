@@ -25,6 +25,10 @@ public:
     //NODE METHODS
     bool addNode(std::string name);
     bool setFaction(std::string node, std::string faction);
+    void setTerrain(string node, string type);
+    void setModifiers(string node, vector<string> mods);
+    void toggleEdge(string node);
+    string getTerrain(string node);
 
     //LINK METHODS
     bool addLink(string from, string to);
@@ -33,7 +37,7 @@ public:
 
 
 
-private:
+public:
     std::map<string, Node*> nodes;
     std::map<string, Link*> links;
 
@@ -46,10 +50,11 @@ private:
 class Map::Node{
     friend class Map::Link;
 private:
-    std::string name, faction, power, type;
+    std::string name, faction, terrain;
     Map::Link *firstIn, *firstOut, *lastIn, *lastOut;
     vector<std::string> modifiers;
     int reinforcements;
+    bool edge;
 public:
     Node(std::string &name);
     Map::Link *getFirstIn();
@@ -58,8 +63,12 @@ public:
     Map::Link *getLastIn();
     std::string getName();
     bool setFaction(std::string fac);
+    void setTerrain(string type);
+    void setModifiers(vector<string> mods);
     vector<Map::Node*> getAdjacent();
     vector<Map::Node*> getAdjacentControlled();
+    void toggleEdge();
+    string getTerrain();
 
 };
 

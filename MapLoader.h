@@ -21,12 +21,17 @@ public:
 
 
     Map *m;
-    string file;
+    string mapFile;
     bool addNodes();
     bool addLinks();
     string nodeList;
     string linkLink;
     string slurp(ifstream& in);
+    bool separate();
+    ifstream ifs;
+    stringstream buffer;
+    stringstream nodeBuilder;
+    stringstream linkBuilder;
 };
 
 

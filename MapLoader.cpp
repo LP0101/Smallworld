@@ -8,15 +8,105 @@
 #include <streambuf>
 
 MapLoader::MapLoader(string path) {
-    file=path;
     m = new Map();
+    ifs.open("../"+path);
+//    string mapFile((std::istreambuf_iterator<char>(ifs)),
+//                    std::istreambuf_iterator<char>());
+    buffer << ifs.rdbuf();
+    ifs.close();
+}
+
+bool MapLoader::separate() { //gotta keep them separated
+    string line;
+    bool nodeSection = false;
+    bool linkSection = false;
+    while(std::getline(buffer, line)){
+        if(line == "BEGIN NODES") {
+            nodeSection = true;
+            continue;
+        }
+        if(line == "END NODES") {
+            nodeSection = false;
+            continue;
+        }
+        if(line == "BEGIN LINKS"){
+            linkSection = true;
+            continue;
+        }
+        if(line == "END LINKS")
+            break;
+        if(nodeSection){
+            nodeBuilder << line << endl;
+            continue;
+        }
+        if(linkSection){
+            linkBuilder << line << endl;
+            continue;
+        }
+    }
+    if (nodeBuilder.str().empty() || linkBuilder.str().empty()){
+        throw new exception;
+    }
 }
 
 bool MapLoader::addNodes(){
-    ifstream ifs("test.txt");
-    std::string content((std::istreambuf_iterator<char>(ifs)),
-                    std::istreambuf_iterator<char>());
-    cout << content << endl;
+    string line, name, lineS;
+    string delimiter = "|";
+    vector<string> mods;
+
+//    while(getline(nodeBuilder,line)){
+//        cout << line << endl;
+//    }
+    while(getline(nodeBuilder,line)){
+        delimiter = "|";
+        name = line.substr(0, line.find(delimiter));
+        m->addNode(name);
+        cout << "Name: " << name << endl;
+        line.erase(0, line.find(delimiter) + delimiter.length());
+        m->setTerrain(name, line.substr(0, line.find(delimiter))); //set terrain
+        line.erase(0, line.find(delimiter) + delimiter.length());
+        if(line.substr(0, line.find(delimiter)) == "E"){
+            m->toggleEdge(name);    //make edgy
+        }
+        line.erase(0, line.find(delimiter) + delimiter.length());
+        //remove array brackets
+        line.erase(0,1);
+        line.erase(line.length()-1);
+
+        delimiter = ",";
+        while(true){
+            mods.push_back(line.substr(0, line.find(delimiter)));
+            line.erase(0, line.find(delimiter) + delimiter.length());
+            if(line.find(delimiter) == string::npos){
+                mods.push_back(line);
+                break;
+            } //check if there's any other elements left
+        }
+        m->setModifiers(name,mods);
+    }
+    return true;
+}
+
+bool MapLoader::addLinks() {
+    string line, from, to;
+    string delimiter=",";
+    
+    while(getline(linkBuilder, line)){
+        cout << line << endl;
+        from =  line.substr(0, line.find(":"));
+        line.erase(0, line.find(":") + delimiter.length());
+        while(true){
+            to = line.substr(0, line.find(delimiter));
+            m->addLink(from, to);
+            line.erase(0, line.find(delimiter) + delimiter.length());
+            if(line.find(delimiter) == string::npos){
+                to = line;
+                m->addLink(from, to);
+                break;
+            }
+
+        }
+    }
     return true;
 }
 

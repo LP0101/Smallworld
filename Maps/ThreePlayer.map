@@ -32,7 +32,7 @@ M7|Mountain|N|[Cave]
 END NODES
 
 BEGIN LINKS
-W1:Fo1,Fa1,
+W1:Fo1,Fa1
 Fo1:M5,S3,Fa1
 Fa1:S3,M1
 M1:S3,S4,Fa2

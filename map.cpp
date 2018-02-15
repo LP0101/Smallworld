@@ -142,7 +142,8 @@ Map::Node::Node(string &a){
     lastIn = nullptr;
     lastOut = nullptr;
     faction = "a";
-    type = "";
+    terrain = "";
+    edge = false;
     reinforcements = 0;
 }
 
@@ -226,6 +227,13 @@ std::string Map::Node::getName() {
 }
 
 bool Map::Node::setFaction(std::string fac) {faction = fac; return true;}
+void Map::Node::setTerrain(string type) {terrain = type;}
+void Map::Node::setModifiers(vector<string> mods) {modifiers = mods;}
+void Map::Node::toggleEdge() {edge = !edge;}
+
+string Map::Node::getTerrain(){
+    return terrain;
+}
 
 
 
@@ -242,6 +250,13 @@ void Map::printAdjacentControlled(string node){
 
 bool Map::setFaction(std::string node, std::string faction){
     return nodes[node]->setFaction(faction);
+}
+void Map::setModifiers(string node, vector<string> mods) {nodes[node]->setModifiers(mods);}
+void Map::setTerrain(string node, string type) {nodes[node]->setTerrain(type);}
+void Map::toggleEdge(string node) {nodes[node]->toggleEdge();}
+
+string Map::getTerrain(string node){
+    return nodes[node]->getTerrain();
 }
 
 
