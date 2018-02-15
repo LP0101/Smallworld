@@ -135,7 +135,7 @@ bool Map::removeNode(string name) {
 
 }
 
-Map::Node::Node(string a){
+Map::Node::Node(string &a){
     name = a;
     firstIn = nullptr;
     firstOut = nullptr;

@@ -5,19 +5,17 @@
 #include "MapLoader.h"
 #include "map.h"
 #include <fstream>
+#include <streambuf>
 
 MapLoader::MapLoader(string path) {
     file=path;
     m = new Map();
 }
-string MapLoader::slurp(ifstream& in) {
-    stringstream sstr;
-    sstr << in.rdbuf();
-    return sstr.str();
-}
+
 bool MapLoader::addNodes(){
     ifstream ifs("test.txt");
-    string content = slurp(ifs);
+    std::string content((std::istreambuf_iterator<char>(ifs)),
+                    std::istreambuf_iterator<char>());
     cout << content << endl;
     return true;
 }

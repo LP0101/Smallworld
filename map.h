@@ -51,7 +51,7 @@ private:
     vector<std::string> modifiers;
     int reinforcements;
 public:
-    Node(std::string name);
+    Node(std::string &name);
     Map::Link *getFirstIn();
     Map::Link *getFirstOut();
     Map::Link *getLastOut();
