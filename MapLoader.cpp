@@ -94,14 +94,15 @@ bool MapLoader::addLinks() {
         from =  line.substr(0, line.find(":"));
         line.erase(0, line.find(":") + delimiter.length());
         while(true){
-            to = line.substr(0, line.find(delimiter));
-            m->addLink(from, to);
-            line.erase(0, line.find(delimiter) + delimiter.length());
             if(line.find(delimiter) == string::npos){
                 to = line;
                 m->addLink(from, to);
                 break;
             }
+            to = line.substr(0, line.find(delimiter));
+            m->addLink(from, to);
+            line.erase(0, line.find(delimiter) + delimiter.length());
+
 
         }
     }

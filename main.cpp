@@ -11,7 +11,7 @@ int main() {
     l->addNodes();
     l->addLinks();
 
-    l->m->printAdjacent("Fa3");
+    l->m->printAdjacent("Fa4");
 
 //    string test = "a,b,c";
 //    string delimiter = ",";

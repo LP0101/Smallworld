@@ -13,13 +13,13 @@ W2|Water|E|[]
 P2|Plains|E|[Cave]
 M4|Mountains|E|[]
 S1|Swamp|E|[]
-Fo3|Forest|E|[]
+Fo5|Forest|E|[]
 S2|Swamp|E|[Mine]
 Fa3|Farmland|N|[]
 M5|Mountain|E|[]
 S3|Swamp|N|[]
 S4|Swamp|N|[]
-Fo4|Forest|E|[Cave]
+Fo4|Forest|N|[Cave]
 P3|Plains|N|[]
 S5|Swamp|N|[Magic]
 Fa4|Farmland|N|[]
@@ -36,8 +36,8 @@ W1:Fo1,Fa1,M1
 Fo1:M5,S3,Fa1
 M5:Fa5,P5,S3
 Fa5:S2,M6,P5
-S2:Fo4,Fa4,M6
-Fo4:S1,Fa4
+S2:Fo5,Fa4,M6
+Fo5:S1,Fa4
 Fa1:W1,S3,M1
 S3:P5,S4,M1
 P5:M6,W3,S4
