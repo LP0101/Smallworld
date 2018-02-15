@@ -3,6 +3,7 @@
 //
 
 #include "map.h"
+#include "MapLoader.h"
 #include <iostream>
 #include <vector>
 #include <map>
@@ -257,6 +258,11 @@ void Map::toggleEdge(string node) {nodes[node]->toggleEdge();}
 
 string Map::getTerrain(string node){
     return nodes[node]->getTerrain();
+}
+
+void Map::build(string path) {
+    MapLoader loader = MapLoader(path, this);
+    loader.build();
 }
 
 

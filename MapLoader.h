@@ -16,8 +16,8 @@ using namespace std;
 
 class MapLoader {
 public:
-    MapLoader(std::string path);
-    Map build();
+    MapLoader(std::string path, Map *map);
+    Map* build();
 
 
     Map *m;

@@ -21,6 +21,7 @@ public:
     Map();
     void printAdjacent(string node);
     void printAdjacentControlled(string node);
+    void build(string path);
 
     //NODE METHODS
     bool addNode(std::string name);
@@ -37,7 +38,7 @@ public:
 
 
 
-public:
+private:
     std::map<string, Node*> nodes;
     std::map<string, Link*> links;
 

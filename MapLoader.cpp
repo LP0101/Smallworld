@@ -7,13 +7,20 @@
 #include <fstream>
 #include <streambuf>
 
-MapLoader::MapLoader(string path) {
-    m = new Map();
+MapLoader::MapLoader(string path, Map *map) {
+    m = map;
     ifs.open("../"+path);
 //    string mapFile((std::istreambuf_iterator<char>(ifs)),
 //                    std::istreambuf_iterator<char>());
     buffer << ifs.rdbuf();
     ifs.close();
+}
+
+Map *MapLoader::build() {
+    this->separate();
+    this->addNodes();
+    this->addLinks();
+    return m;
 }
 
 bool MapLoader::separate() { //gotta keep them separated

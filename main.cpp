@@ -1,17 +1,14 @@
 #include <iostream>
 #include <zconf.h>
 #include "map.h"
-#include "MapLoader.h"
 
 using namespace std;
 
 int main() {
-    MapLoader *l = new MapLoader("Maps/ThreePlayersR2.map");
-    l->separate();
-    l->addNodes();
-    l->addLinks();
+    Map a = Map();
+    a.build("Maps/ThreePlayersR2.map");
 
-    l->m->printAdjacent("Fa4");
+    a.printAdjacent("Fo4");
 
 //    string test = "a,b,c";
 //    string delimiter = ",";
