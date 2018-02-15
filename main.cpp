@@ -8,7 +8,7 @@ int main() {
     Map a = Map();
     a.build("Maps/ThreePlayersR2.map");
 
-    a.printAdjacent("Fo4");
+    a.printAdjacent("Fo5");
 
 //    string test = "a,b,c";
 //    string delimiter = ",";
