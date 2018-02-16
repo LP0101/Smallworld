@@ -1,5 +1,7 @@
 # COMP345 Project
 
+*To view this readme online, go to https://popesco.io/345readme *
+
 ## Building
 
 Building using cmake requires version 3.9 or later.
