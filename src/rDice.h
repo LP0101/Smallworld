@@ -5,7 +5,7 @@
 #ifndef PROJECT_RDICE_H
 #define PROJECT_RDICE_H
 
-#import <iostream>
+#include <iostream>
 
 using namespace std;
 

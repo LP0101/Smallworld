@@ -231,6 +231,10 @@ bool Map::Node::setFaction(std::string fac) {faction = fac; return true;}
 void Map::Node::setTerrain(string type) {terrain = type;}
 void Map::Node::setModifiers(vector<string> mods) {modifiers = mods;}
 void Map::Node::toggleEdge() {edge = !edge;}
+void Map::Node::addModifier(string mod){modifiers.push_back(mod);}
+void Map::Node::removeModifier(string mod) {modifiers.erase( std::remove(modifiers.begin(), modifiers.end(), std::string(mod)), modifiers.end() );}
+vector<string> Map::Node::getModifiers() {return modifiers;}
+
 
 string Map::Node::getTerrain(){
     return terrain;
@@ -270,5 +274,12 @@ void Map::build(string path) {
     MapLoader loader = MapLoader(path, this);
     loader.build();
 }
+void Map::addModifier(string node, string modifier) {
+    nodes[node]->addModifier(modifier);
+}
+void Map::removeModifier(string node, string modifier) {
+    nodes[node]->removeModifier(modifier);
+}
+vector<string> Map::getModifiers(string node){return nodes[node]->getModifiers();}
 
 

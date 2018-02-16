@@ -8,6 +8,7 @@
 #include <vector>
 #include <iostream>
 #include <map>
+#include <algorithm>
 using namespace std;
 
 
@@ -28,6 +29,9 @@ public:
     bool setFaction(std::string node, std::string faction);
     void setTerrain(string node, string type);
     void setModifiers(string node, vector<string> mods);
+    void addModifier(string node, string modifier);
+    void removeModifier(string node, string modifier);
+    vector<string> getModifiers(string node);
     void toggleEdge(string node);
     string getTerrain(string node);
     void setReinforcements(string node, int i);
@@ -76,6 +80,9 @@ public:
     string getTerrain();
     void setReinforcements(int i);
     int getReinforcements();
+    void addModifier(string mod);
+    void removeModifier(string mod);
+    vector<string> getModifiers();
 
 };
 

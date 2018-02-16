@@ -5,10 +5,10 @@
 #ifndef PROJECT_PLAYER_H
 #define PROJECT_PLAYER_H
 
-#import <iostream>
-#import "faction.h"
-#import "map.h"
-#import <algorithm>
+#include <iostream>
+#include "faction.h"
+#include "map.h"
+#include <algorithm>
 #include "factions.h"
 #include "rDice.h"
 

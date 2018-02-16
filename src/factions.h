@@ -4,11 +4,11 @@
 
 #ifndef PROJECT_FACTIONS_H
 #define PROJECT_FACTIONS_H
-#import <iostream>
-#import <vector>
-#import <sstream>
-#import <fstream>
-#import "faction.h"
+#include <iostream>
+#include <vector>
+#include <sstream>
+#include <fstream>
+#include "faction.h"
 
 
 using namespace std;

@@ -22,7 +22,6 @@ float rDice::getPercentage(int value) {
     for(int i=0;i<4;i++){
         total+=rolls[i];
     }
-    cout << "Total is " + to_string(total) << endl;
     if(total > 0) {
         return float(rolls[value]) / float(total);
     }

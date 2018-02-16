@@ -13,42 +13,79 @@ int main() {
     Map *a = new Map();
     a->build("Maps/ThreePlayersR2.map");
 
-//    a->printAdjacent("Fo5");
-//    a->setFaction("S2","Orcs");
-//    a->printAdjacentControlled("Fo5");
+    cout << "New map created based on given picture" << endl << endl;
 
-//    rDice r = rDice();
-//
-//    for(int i=0;i<10;i++) {
-//        r.roll();
-//    }
-//    cout << "3 was rolled " + to_string(r.getPercentage(3)) << endl;
-//
+    cout << "Printing adjacent zones to Fo5: " << endl;
+    a->printAdjacent("Fo5");
+
+    cout << endl << "Changing Fo5 and Fa4 to faction 'test'" << endl << endl;
+    a->setFaction("Fo5","test");
+    a->setFaction("Fa4","test");
+    cout << "Printing allied adjacent zones to Fo5: " << endl;
+    a->printAdjacentControlled("Fo5");
+
+    cout << endl << "Making a new nice object" << endl;
+    rDice r = rDice();
+    cout << "Rolling dice 10 times:" << endl;
+
+    for(int i=0;i<10;i++) {
+        cout << r.roll() << endl;
+    }
+    cout << "3 was rolled " + to_string(r.getPercentage(3)) << endl;
+
+    cout << endl << "Making a new deck of factions using files in GameConfig" << endl;
     Factions *f = new Factions("GameConfig/Races","GameConfig/Powers");
     vector<string> top = f->topDecks();
 
-//    for(string faction : top){
-//       cout << faction << endl;
-//    }
+    cout << "The top 6 power/race combinations in the deck are: " << endl;
 
+    for(string faction : top){
+       cout << faction << endl;
+    }
+
+    cout << endl << "Making a new player using the created deck and map. For testing, players start with 20 Victory Points" << endl;
     Player luca = Player("luca",f,a);
+    cout << "Player chooses race in slot [2]. Victory Points drop by 2." << endl;
     luca.picks_race(2);
-    cout << luca.getVp() << endl;
+    cout << "VP: " << luca.getVp() << endl;
+    cout << endl << "Races 1 and 0 now have a point value of (1). New race is added to the top 6" << endl;
 
-//    top = f->topDecks();
-//    for(string faction : top){
-//       cout << faction << endl;
-//    }
+    top = f->topDecks();
+    for(string faction : top){
+       cout << faction << endl;
+    }
 
+    cout << endl << "Picking a race with a value gives the player that many VP" << endl;
     luca.picks_race(0);
-    cout << luca.getVp() << endl;
-    luca.picks_race(0);
-    cout << luca.getVp() << endl;
-//    luca.conquers("Fo1",1);
-//    luca.conquers("M5",1);
-//    luca.conquers("W1",2);
-//    a->printAdjacent("Fo1");
-//    a->printAdjacentControlled("Fo1");
-//    luca.loses("M5");
-//    a->printAdjacentControlled("Fo1");
+    cout << "VP: " << luca.getVp() << endl;
+
+    cout << endl << "Players can also conquer spaces, which costs tokens" << endl;
+    luca.conquers("Fo1",1);
+    luca.conquers("M5",1);
+    luca.conquers("W1",2);
+
+    cout << "Token values of each Race+Power combo are given in the GameConfig settings files" << endl;
+
+    cout << "Scoring is based on number of zones controlled." << endl;
+    luca.scores();
+    cout << "VP: " << luca.getVp() << endl << endl;
+
+    cout << "Players can also lose zones" << endl;
+
+    luca.loses("M5");
+    a->printAdjacentControlled("Fo1");
+
+    cout << "Pieces such as 'Fortress,' 'Dragon,' 'Mountain,' etc. Are handled through the map object itself, with modifiers on each node" << endl;
+    cout << "Adding a dragon to node 'Fo1' can be done like this" << endl;
+    a->addModifier("Fo1","Dragon");
+    cout << "Modifiers on Fo1 are: " << endl;
+    for(string mods : a->getModifiers("Fo1")){
+        cout << mods << endl;
+    }
+    cout << endl << "Removing Dragon, the mods go back to: ";
+    a->removeModifier("Fo1", "Dragon");
+    for(string mods : a->getModifiers("Fo1")){
+        cout << mods << endl;
+    }
+
 }

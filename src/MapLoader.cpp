@@ -80,12 +80,13 @@ bool MapLoader::addNodes(){
 
         delimiter = ",";
         while(true){
-            mods.push_back(line.substr(0, line.find(delimiter)));
-            line.erase(0, line.find(delimiter) + delimiter.length());
             if(line.find(delimiter) == string::npos){
                 mods.push_back(line);
                 break;
             } //check if there's any other elements left
+            mods.push_back(line.substr(0, line.find(delimiter)));
+            line.erase(0, line.find(delimiter) + delimiter.length());
+
         }
         m->setModifiers(name,mods);
     }

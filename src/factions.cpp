@@ -49,7 +49,10 @@ Faction *Factions::take(int i) {
     for(int j=0; j<i; j++){
         values[j]+=1;
     }
-    values[i]=0;
+    for(int j=i; j<4; j++){
+        values[j]=values[j+1];
+    }
+    values[5]=0;
     powers.erase(powers.begin()+i);
     races.erase(races.begin()+i);
     return request;
