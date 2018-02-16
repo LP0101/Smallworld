@@ -43,10 +43,6 @@ Map::Link::Link(Node *a, Node *b){
         b->lastIn = this;
         this -> nextIn = nullptr;
     }
-    lastOut=nullptr;
-    firstOut = nullptr;
-    lastIn = nullptr;
-    lastOut = nullptr;
 
     string name=a->getName() + "to" + b->getName();
 
@@ -108,7 +104,6 @@ bool Map::removeLink(string x, string y) {
     string to = a->getTo();
     links.erase(from + "to" + to);
     delete a;
-    a = nullptr;
     return true;
 
 
@@ -131,7 +126,6 @@ bool Map::removeNode(string name) {
     }
     nodes.erase(a->getName());
     delete a;
-    a = nullptr;
     return true;
 
 }

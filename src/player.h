@@ -26,10 +26,11 @@ public:
     void addVp(int i);
     void removeVp(int i);
     rDice *dice;
+    string readSummarySheet();
 
 private:
     int vp;
-    string name;
+    string name, summarySheet;
     Faction *primary, *secondary, *spirit;
     vector<string> nodes;
     Factions *deck;

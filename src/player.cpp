@@ -13,6 +13,7 @@ Player::Player(string n, Factions *f, Map *m){
     vp = 20;
     map = m;
     dice = new rDice();
+    summarySheet = "Rules and stuff";
 }
 void Player::picks_race(int i) {
     if(vp<i)
@@ -60,3 +61,4 @@ void Player::scores() {
 void Player::addVp(int i) {vp+=i;}
 void Player::removeVp(int i) {vp-=i;}
 int Player::getVp(){return vp;}
+string Player::readSummarySheet() {return summarySheet;}
