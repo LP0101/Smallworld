@@ -37,6 +37,10 @@ public:
     void setReinforcements(string node, int i);
     int getReinforcements(string node);
     string getFaction(string node);
+    void addFactionPower(string node, string power);
+    void removeFactionPower(string node, string power);
+    void clearFactionPowers(string node);
+    vector<string> getFactionPowers(string node);
 
     //LINK METHODS
     bool addLink(string from, string to);
@@ -60,7 +64,7 @@ class Map::Node{
 private:
     std::string name, faction, terrain;
     Map::Link *firstIn, *firstOut, *lastIn, *lastOut;
-    vector<std::string> modifiers;
+    vector<std::string> modifiers, factionPowers;
     int reinforcements;
     bool edge;
 public:
@@ -74,6 +78,10 @@ public:
     bool setFaction(std::string fac);
     void setTerrain(string type);
     void setModifiers(vector<string> mods);
+    void addFactionPower(string power);
+    void removeFactionPower(string power);
+    void clearFactionPowers();
+    vector<string> getFactionPowers();
     vector<Map::Node*> getAdjacent();
     vector<Map::Node*> getAdjacentControlled();
     void toggleEdge();

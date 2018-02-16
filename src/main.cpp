@@ -2,9 +2,6 @@
 #include "rDice.h"
 #include "map.h"
 #include "factions.h"
-#include <vector>
-#include <zconf.h>
-#include "faction.h"
 #include "player.h"
 
 using namespace std;
@@ -75,16 +72,16 @@ int main() {
     luca.loses("M5");
     a->printAdjacentControlled("Fo1");
 
-    cout << "Pieces such as 'Fortress,' 'Dragon,' 'Mountain,' etc. Are handled through the map object itself, with modifiers on each node" << endl;
+    cout << "Pieces such as 'Fortress,' 'Dragon,' etc. Are handled through the map object itself, with faction powers on each node" << endl;
     cout << "Adding a dragon to node 'Fo1' can be done like this" << endl;
-    a->addModifier("Fo1","Dragon");
-    cout << "Modifiers on Fo1 are: " << endl;
-    for(string mods : a->getModifiers("Fo1")){
+    a->addFactionPower("Fo1","Dragon");
+    cout << "Faction Powers on Fo1 are: " << endl;
+    for(string mods : a->getFactionPowers("Fo1")){
         cout << mods << endl;
     }
-    cout << endl << "Removing Dragon, the mods go back to: ";
-    a->removeModifier("Fo1", "Dragon");
-    for(string mods : a->getModifiers("Fo1")){
+    cout << endl << "Removing Dragon, the powers are empty: ";
+    a->removeFactionPower("Fo1", "Dragon");
+    for(string mods : a->getFactionPowers("Fo1")){
         cout << mods << endl;
     }
 

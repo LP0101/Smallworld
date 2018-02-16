@@ -236,7 +236,10 @@ string Map::Node::getTerrain(){
 void Map::Node::setReinforcements(int i) {reinforcements=i;}
 int Map::Node::getReinforcements() {return reinforcements;}
 string Map::Node::getFaction() {return faction;}
-
+void Map::Node::addFactionPower(string power) {factionPowers.push_back(power);}
+void Map::Node::removeFactionPower(string power) {factionPowers.erase( std::remove(factionPowers.begin(), factionPowers.end(), std::string(power)), factionPowers.end() );}
+void Map::Node::clearFactionPowers() {factionPowers.clear();}
+vector<string> Map::Node::getFactionPowers() {return factionPowers;}
 
 
 
@@ -276,4 +279,7 @@ void Map::removeModifier(string node, string modifier) {
 }
 vector<string> Map::getModifiers(string node){return nodes[node]->getModifiers();}
 
-
+void Map::addFactionPower(string node, string power) {nodes[node]->addFactionPower(power);}
+void Map::removeFactionPower(string node, string power) {nodes[node]->removeFactionPower(power);}
+void Map::clearFactionPowers(string node) {nodes[node]->clearFactionPowers();}
+vector<string> Map::getFactionPowers(string node) {return nodes[node]->getFactionPowers();}
