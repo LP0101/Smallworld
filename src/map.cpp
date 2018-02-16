@@ -113,6 +113,7 @@ bool Map::removeLink(string x, string y) {
 
 
 //NODES
+//Nodes represent every "zone" on the smallworld map. They contain its entire state, including the race controlling it, the modifiers, and the faction power
 bool Map::addNode(std::string name) {
     Map::Node *node = new Map::Node(name);
     nodes[name] = node;
@@ -244,6 +245,7 @@ vector<string> Map::Node::getFactionPowers() {return factionPowers;}
 
 
 //MAP
+//The map itself is what is exposed to other classes, thus encapsulating all node and link classes
 Map::Map(){}
 
 void Map::printAdjacent(string node) {
@@ -283,3 +285,4 @@ void Map::addFactionPower(string node, string power) {nodes[node]->addFactionPow
 void Map::removeFactionPower(string node, string power) {nodes[node]->removeFactionPower(power);}
 void Map::clearFactionPowers(string node) {nodes[node]->clearFactionPowers();}
 vector<string> Map::getFactionPowers(string node) {return nodes[node]->getFactionPowers();}
+

@@ -1,5 +1,13 @@
 # COMP345 Project
 
+## Building
+
+Building using cmake requires version 3.9 or later.
+
+If compiling manually, build all .cpp files in the src folder.
+
+Building this project was tested using gcc version 7.20 on Linux and the Apple LLVM compiler version 9.00 on MacOS 10.13
+
 ## How it works
 
 ### Map class

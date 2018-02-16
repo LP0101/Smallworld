@@ -1,11 +1,15 @@
 // // Created by luca on 15/02/18.
 //
 
+//This is a bit unintuitive, Factions represents the deck itself (which is power card + race cards).
+// These cards are vectors containing the name (string) and the token number.
+
 #include <algorithm>
 #include <random>
 #include <chrono>
 #include "factions.h"
 
+//Factions are built using the two files in GameConfig. Each power/race has its token value beside it.
 
 Factions::Factions(string r, string p){
     string line;
@@ -44,6 +48,7 @@ vector<string> Factions::topDecks() {
     }
    return topdecks;
 }
+//Takes a card from the "deck" and returns a faction object. Also adds 1 to the value of every card above it, and shifts the value array down by 1
 Faction *Factions::take(int i) {
     Faction *request = new Faction(powers[i],races[i]);
     for(int j=0; j<i; j++){
@@ -58,6 +63,7 @@ Faction *Factions::take(int i) {
     return request;
 }
 
+//Decomposes a faction object back into its two vectors, adds them to the bottom of the deck, then deletes them
 void Factions::giveBack(Faction* f) {
     powers.push_back(f->getRaw()[0]);
     races.push_back(f->getRaw()[1]);

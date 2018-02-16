@@ -23,7 +23,9 @@ Map *MapLoader::build() {
     return m;
 }
 
-bool MapLoader::separate() { //gotta keep them separated
+//Separate nodes and links into two different stringstreams
+
+bool MapLoader::separate() {
     string line;
     bool nodeSection = false;
     bool linkSection = false;
@@ -55,6 +57,8 @@ bool MapLoader::separate() { //gotta keep them separated
         throw new exception;
     }
 }
+
+//Iterate through the nodeBuilder stringstream and add nodes to the map
 
 bool MapLoader::addNodes(){
     string line, name, lineS;
@@ -91,6 +95,8 @@ bool MapLoader::addNodes(){
     return true;
 }
 
+//Iterate through the linkBuilder stringstream and add the links to the map
+
 bool MapLoader::addLinks() {
     string line, from, to;
     string delimiter=",";
@@ -115,6 +121,3 @@ bool MapLoader::addLinks() {
     }
     return true;
 }
-
-
-

@@ -4,6 +4,8 @@
 
 #include "faction.h"
 
+//The faction card the player holds, composed of a power, race, and a number of tokens.
+
 Faction::Faction(vector<string> p, vector<string> r) {
     power = p[0];
     race = r[0];
@@ -23,6 +25,7 @@ void Faction::toggleDecline() {
     decline = !decline;
 }
 
+//Returns the initial two vectors used to make the object. Used when returning it to the deck
 vector<vector<string>> Faction::getRaw(){
     vector<vector<string>> f;
     vector<string> p,r;

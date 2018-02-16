@@ -2,6 +2,9 @@
 // Created by luca on 15/02/18.
 //
 
+//Dice class. Anything rolled over 3 is converted to 0 (representing the 3 empty sides).
+//Records each roll in an array, which can be used to the get percentage of each roll.
+
 #include "rDice.h"
 
 rDice::rDice(){
