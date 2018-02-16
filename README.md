@@ -1,6 +1,6 @@
 # COMP345 Project
 
-*To view this readme online, go to https://popesco.io/345readme *
+To view this readme online with markdown, go to https://popesco.io/345readme 
 
 ## Building
 
