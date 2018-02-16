@@ -19,7 +19,7 @@ public:
     MapLoader(std::string path, Map *map);
     Map* build();
 
-
+private:
     Map *m;
     string mapFile;
     bool addNodes();

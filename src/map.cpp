@@ -235,6 +235,9 @@ void Map::Node::toggleEdge() {edge = !edge;}
 string Map::Node::getTerrain(){
     return terrain;
 }
+void Map::Node::setReinforcements(int i) {reinforcements=i;}
+int Map::Node::getReinforcements() {return reinforcements;}
+string Map::Node::getFaction() {return faction;}
 
 
 
@@ -252,9 +255,12 @@ void Map::printAdjacentControlled(string node){
 bool Map::setFaction(std::string node, std::string faction){
     return nodes[node]->setFaction(faction);
 }
+string Map::getFaction(string node) {return nodes[node]->getFaction();}
 void Map::setModifiers(string node, vector<string> mods) {nodes[node]->setModifiers(mods);}
 void Map::setTerrain(string node, string type) {nodes[node]->setTerrain(type);}
 void Map::toggleEdge(string node) {nodes[node]->toggleEdge();}
+void Map::setReinforcements(string node, int i) {nodes[node]->setReinforcements(i);}
+int Map::getReinforcements(string node) {nodes[node]->getReinforcements();}
 
 string Map::getTerrain(string node){
     return nodes[node]->getTerrain();

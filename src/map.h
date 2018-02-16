@@ -30,6 +30,9 @@ public:
     void setModifiers(string node, vector<string> mods);
     void toggleEdge(string node);
     string getTerrain(string node);
+    void setReinforcements(string node, int i);
+    int getReinforcements(string node);
+    string getFaction(string node);
 
     //LINK METHODS
     bool addLink(string from, string to);
@@ -63,6 +66,7 @@ public:
     Map::Link *getLastOut();
     Map::Link *getLastIn();
     std::string getName();
+    string getFaction();
     bool setFaction(std::string fac);
     void setTerrain(string type);
     void setModifiers(vector<string> mods);
@@ -70,6 +74,8 @@ public:
     vector<Map::Node*> getAdjacentControlled();
     void toggleEdge();
     string getTerrain();
+    void setReinforcements(int i);
+    int getReinforcements();
 
 };
 
