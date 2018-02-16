@@ -61,7 +61,9 @@ int main() {
     luca.conquers("M5",1);
     luca.conquers("W1",2);
 
-    cout << "Token values of each Race+Power combo are given in the GameConfig settings files" << endl;
+    a->printAdjacentControlled("Fo1");
+
+    cout << "\nToken values of each Race+Power combo are given in the GameConfig settings files" << endl;
 
     cout << "Scoring is based on number of zones controlled." << endl;
     luca.scores();
@@ -72,7 +74,7 @@ int main() {
     luca.loses("M5");
     a->printAdjacentControlled("Fo1");
 
-    cout << "Pieces such as 'Fortress,' 'Dragon,' etc. Are handled through the map object itself, with faction powers on each node" << endl;
+    cout << "\nPieces such as 'Fortress,' 'Dragon,' etc. Are handled through the map object itself, with faction powers on each node" << endl;
     cout << "Adding a dragon to node 'Fo1' can be done like this" << endl;
     a->addFactionPower("Fo1","Dragon");
     cout << "Faction Powers on Fo1 are: " << endl;
