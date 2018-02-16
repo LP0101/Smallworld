@@ -7,10 +7,10 @@
 
 #import <iostream>
 #import "faction.h"
-#import "factions.h"
 #import "map.h"
 #import <algorithm>
-
+#include "factions.h"
+#include "rDice.h"
 
 using namespace std;
 
@@ -22,10 +22,13 @@ public:
     void conquers(string node, int i);
     void loses(string node);
     void scores();
-    int getScore();
+    int getVp();
+    void addVp(int i);
+    void removeVp(int i);
+    rDice *dice;
 
 private:
-    int score;
+    int vp;
     string name;
     Faction *primary, *secondary, *spirit;
     vector<string> nodes;

@@ -10,17 +10,21 @@
 #import <fstream>
 #import "faction.h"
 
+
 using namespace std;
+
 
 class Factions {
 public:
     Factions(string races, string powers);
     vector<string> topDecks();
-    Faction* take(int);
+    Faction* take(int i);
     void giveBack(Faction* f);
+    int requestValue(int i);
 private:
     vector<vector<string>> races, powers;
     fstream ifs;
+    vector<int> values;
 };
 
 

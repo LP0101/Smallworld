@@ -10,10 +10,15 @@ Player::Player(string n, Factions *f, Map *m){
     secondary = nullptr;
     spirit = nullptr;
     deck = f;
-    score = 0;
+    vp = 20;
     map = m;
+    dice = new rDice();
 }
 void Player::picks_race(int i) {
+    if(vp<i)
+        throw new exception;
+    vp-=i;
+    vp+=deck->requestValue(i);
     Faction *choice = deck->take(i);
     if(primary == nullptr)
         primary = choice;
@@ -50,5 +55,8 @@ void Player::loses(string node) {
 }
 
 void Player::scores() {
-    score+=nodes.size(); //incomplete - needs proper rule engine to check for bonus scores
+    vp+=nodes.size(); //incomplete - needs proper rule engine to check for bonus scores
 }
+void Player::addVp(int i) {vp+=i;}
+void Player::removeVp(int i) {vp-=i;}
+int Player::getVp(){return vp;}

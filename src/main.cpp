@@ -26,34 +26,29 @@ int main() {
 //
     Factions *f = new Factions("GameConfig/Races","GameConfig/Powers");
     vector<string> top = f->topDecks();
-//
-//    for(string faction : top){
-//       cout << faction << endl;
-//    }
 
-//    Faction *z = f.take(2);
-//
-//    usleep(2000000);
-//    top = f.topDecks();
-//
 //    for(string faction : top){
 //       cout << faction << endl;
 //    }
-//
-//    cout << z->toString() << endl;
-//    cout << z->getTokens() << endl;
-//
-//    f.giveBack(z);
 
     Player luca = Player("luca",f,a);
     luca.picks_race(2);
-    luca.picks_race(3);
-    luca.picks_race(4);
-    luca.conquers("Fo1",1);
-    luca.conquers("M5",1);
-    luca.conquers("W1",2);
-    a->printAdjacent("Fo1");
-    a->printAdjacentControlled("Fo1");
-    luca.loses("M5");
-    a->printAdjacentControlled("Fo1");
+    cout << luca.getVp() << endl;
+
+//    top = f->topDecks();
+//    for(string faction : top){
+//       cout << faction << endl;
+//    }
+
+    luca.picks_race(0);
+    cout << luca.getVp() << endl;
+    luca.picks_race(0);
+    cout << luca.getVp() << endl;
+//    luca.conquers("Fo1",1);
+//    luca.conquers("M5",1);
+//    luca.conquers("W1",2);
+//    a->printAdjacent("Fo1");
+//    a->printAdjacentControlled("Fo1");
+//    luca.loses("M5");
+//    a->printAdjacentControlled("Fo1");
 }

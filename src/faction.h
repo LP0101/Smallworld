@@ -5,7 +5,7 @@
 #ifndef PROJECT_RACE_H
 #define PROJECT_RACE_H
 #import <iostream>
-#import <vector>;
+#import <vector>
 
 using namespace std;
 

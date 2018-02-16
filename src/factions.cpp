@@ -28,22 +28,28 @@ Factions::Factions(string r, string p){
     }
     ifs.close();
 
-    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
     shuffle(powers.begin(),powers.end(),std::default_random_engine(time(NULL)));
     shuffle(races.begin(),races.end(),std::default_random_engine(time(NULL)+420)); //different random seeds as they run at the same time
+    for(int i=0;i<6;i++){
+        values.push_back(0);
+    }
 }
 
 vector<string> Factions::topDecks() {
     vector<string> topdecks;
     string combo;
     for(int i = 0;i<6;i++){
-        combo = to_string(i) + ": " + powers[i][0] + " " + races[i][0];
+        combo = to_string(i) + ": " + powers[i][0] + " " + races[i][0] + " (" + to_string(values[i]) + ")";
         topdecks.push_back(combo);
     }
    return topdecks;
 }
 Faction *Factions::take(int i) {
     Faction *request = new Faction(powers[i],races[i]);
+    for(int j=0; j<i; j++){
+        values[j]+=1;
+    }
+    values[i]=0;
     powers.erase(powers.begin()+i);
     races.erase(races.begin()+i);
     return request;
@@ -54,3 +60,4 @@ void Factions::giveBack(Faction* f) {
     races.push_back(f->getRaw()[1]);
     delete f;
 }
+int Factions::requestValue(int i) {return values[i];}
