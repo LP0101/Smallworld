@@ -51,7 +51,7 @@ bool MapLoader::separate() { //gotta keep them separated
             continue;
         }
     }
-    if (nodeBuilder.str().empty() || linkBuilder.str().empty()){
+    if (nodeBuilder.str().empty() || linkBuilder.str().empty() || (nodeSection && linkSection)){
         throw new exception;
     }
 }
@@ -66,13 +66,11 @@ bool MapLoader::addNodes(){
         delimiter = "|";
         name = line.substr(0, line.find(delimiter));
         m->addNode(name);
-//        cout << "Name: " << name << endl;
         line.erase(0, line.find(delimiter) + delimiter.length());
         m->setTerrain(name, line.substr(0, line.find(delimiter))); //set terrain
         line.erase(0, line.find(delimiter) + delimiter.length());
-        if(line.substr(0, line.find(delimiter)) == "E"){
+        if(line.substr(0, line.find(delimiter)) == "E")
             m->toggleEdge(name);    //make edgy
-        }
         line.erase(0, line.find(delimiter) + delimiter.length());
         //remove array brackets
         line.erase(0,1);
@@ -98,8 +96,9 @@ bool MapLoader::addLinks() {
     string delimiter=",";
     
     while(getline(linkBuilder, line)){
-//        cout << line << endl;
         from =  line.substr(0, line.find(":"));
+        if(from == "")
+            throw new exception;
         line.erase(0, line.find(":") + delimiter.length());
         while(true){
             if(line.find(delimiter) == string::npos){
