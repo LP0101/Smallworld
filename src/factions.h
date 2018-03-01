@@ -9,6 +9,7 @@
 #include <sstream>
 #include <fstream>
 #include "faction.h"
+#include "piece.h"
 
 
 using namespace std;
@@ -22,9 +23,10 @@ public:
     void giveBack(Faction* f);
     int requestValue(int i);
 private:
-    vector<vector<string>> races, powers;
+    vector<Race*> races;
+    vector<Power*> powers;
     fstream ifs;
-    vector<int> values;
+    vector<vCoin*> values;
 };
 
 

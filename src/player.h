@@ -10,6 +10,7 @@
 #include "map.h"
 #include <algorithm>
 #include "factions.h"
+#include "piece.h"
 #include "rDice.h"
 
 using namespace std;
@@ -23,13 +24,13 @@ public:
     void loses(string node);
     void scores();
     int getVp();
-    void addVp(int i);
-    void removeVp(int i);
+    void addVp(vector<vCoin*>);
+    vCoin *removeVp(int i);
     rDice *dice;
     string readSummarySheet();
 
 private:
-    int vp;
+    vector<vCoin*> oneP,threeP,fiveP,tenP;
     string name, summarySheet;
     Faction *primary, *secondary, *spirit;
     vector<string> nodes;

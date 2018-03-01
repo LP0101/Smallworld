@@ -6,22 +6,25 @@
 #define PROJECT_RACE_H
 #include <iostream>
 #include <vector>
+#include "piece.h"
 
 using namespace std;
 
 class Faction {
 public:
-    Faction(vector<string> p, vector<string> r);
+    Faction(Power *p, Race *r);
     string toString();
     void toggleDecline();
-    vector<vector<string>> getRaw();
     int getTokens();
-    void setTokens(int i);
+    Race* getRace();
+    Power* getPower();
 
 private:
-    string name, race, power;
+    string name;
     int tokens,rTokens,pTokens;
     bool decline;
+    Power *power;
+    Race *race;
 };
 
 
