@@ -12,13 +12,14 @@
 #include "factions.h"
 #include "piece.h"
 #include "rDice.h"
+#include "gamebox.h"
 
 using namespace std;
 
 
 class Player {
 public:
-    Player(string name, Factions *f, Map *m);
+    Player(string name, Factions *f, Map *m, Gamebox *g);
     void picks_race(int i);
     void conquers(string node, int i);
     void loses(string node);
@@ -36,6 +37,7 @@ private:
     vector<string> nodes;
     Factions *deck;
     Map *map;
+    Gamebox *box;
 
 };
 

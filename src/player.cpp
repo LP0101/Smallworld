@@ -4,7 +4,7 @@
 
 #include "player.h"
 
-Player::Player(string n, Factions *f, Map *m){
+Player::Player(string n, Factions *f, Map *m, Gamebox *g){
     name = n;
     primary = nullptr;
     secondary = nullptr;
@@ -12,6 +12,7 @@ Player::Player(string n, Factions *f, Map *m){
     deck = f;
     map = m;
     dice = new rDice();
+    box = g;
     summarySheet = "Rules and stuff";
 }
 //picks a race, paying the appropriate price for it. Also increases the player's victory points by the race's value
@@ -61,10 +62,9 @@ void Player::loses(string node) {
 
 //Gives points based on the nodes controlled
 void Player::scores() {
-//    int points=nodes.size(); //incomplete - needs proper rule engine to check for bonus scores
-//    if(points >= 10){
-//
-//    }
+    int lands = nodes.size();
+    vector<vCoin*> points = box->giveCoins(lands);
+    addVp(points);
 }
 void Player::addVp(vector<vCoin*> points) {
     for(vCoin* coin : points){
