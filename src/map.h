@@ -42,6 +42,7 @@ public:
     Modifier* removescoreMod(string node);
     void clearscoreMods(string node);
     vector<string> getscoreMods(string node);
+    std::map<string,Map::Node*> getNodes();
 
     //LINK METHODS
     bool addLink(string from, string to);

@@ -261,6 +261,8 @@ vector<string> Map::Node::getscoreMods() {
     return temp;
 }
 
+std::map<string,Map::Node*> Map::getNodes() {return nodes;}
+
 
 
 //MAP

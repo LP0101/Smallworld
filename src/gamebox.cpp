@@ -91,3 +91,13 @@ vector<Token*> Gamebox::giveTokens(string race, int quantity) {
         }
     return request;
 }
+
+Modifier* Gamebox::giveModifier(string name) {
+    Modifier * temp = nullptr;
+    for(auto modifier : modifiers){
+        if (modifier->getName() == name){
+            temp = modifier;
+            modifiers.erase(find(modifiers.begin(),modifiers.end(),modifier));
+        }
+    }
+}
