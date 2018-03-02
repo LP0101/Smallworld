@@ -26,9 +26,12 @@ public:
     void scores();
     int getVp();
     void addVp(vector<vCoin*>);
+    int getTokens();
     vector<vCoin*> removeVp(int i);
     rDice *dice;
     string readSummarySheet();
+    void addMod(string node);
+    void removeMod(string node);
 
 private:
     vector<vCoin*> oneP,threeP,fiveP,tenP;
@@ -38,8 +41,8 @@ private:
     Factions *deck;
     Map *map;
     Gamebox *box;
-    Token *primaryTokens;
-
+    vector<Token*> primaryTokens;
+    vector<Modifier*> powerMods;
 };
 
 

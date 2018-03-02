@@ -16,6 +16,7 @@ public:
     void transfer(vector<vCoin*>*);
     vector<vCoin*> transfer();
     Gamebox();
+    vector<Token*> giveTokens(string race, int quantity);
 
 private:
     vector<vCoin*> oneCoins;
@@ -24,7 +25,7 @@ private:
     vector<vCoin*> tenCoins;
     vector<Token*> tokens;
     vector<Modifier*> modifiers;
-    vector<vCoin*> *last;
+    vector<vCoin*> last;
 };
 
 

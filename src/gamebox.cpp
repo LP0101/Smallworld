@@ -69,8 +69,25 @@ void Gamebox::returnCoins(vector<vCoin *> coins) {
 }
 
 void Gamebox::transfer(vector<vCoin *> * coins) {
-   last = coins;
+   last.clear();
+    for(auto coin : *coins){
+        last.push_back(coin);
+    }
 }
 vector<vCoin*> Gamebox::transfer() {
-    return *last;
+    return last;
+}
+
+vector<Token*> Gamebox::giveTokens(string race, int quantity) {
+    vector<Token*> request;
+        for(int i=0;i<tokens.size(); i++){
+            if(tokens[i]->getRace() == race){
+                request.push_back(tokens[i]);
+                tokens.erase(tokens.begin()+i);
+                i--;
+                if(request.size() == quantity)
+                    break;
+            }
+        }
+    return request;
 }

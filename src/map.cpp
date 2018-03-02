@@ -140,7 +140,6 @@ Map::Node::Node(string &a){
     faction = "a";
     terrain = "";
     edge = false;
-    reinforcements = 0;
 }
 
 
@@ -234,13 +233,33 @@ vector<string> Map::Node::getModifiers() {return modifiers;}
 string Map::Node::getTerrain(){
     return terrain;
 }
-void Map::Node::setReinforcements(int i) {reinforcements=i;}
-int Map::Node::getReinforcements() {return reinforcements;}
+void Map::Node::setReinforcements(vector<Token*> tokens) {
+    reinforcements.clear();
+    for(auto token : tokens){
+        reinforcements.push_back(token);
+    }
+}
+int Map::Node::getReinforcements() {return reinforcements.size();}
 string Map::Node::getFaction() {return faction;}
-void Map::Node::addFactionPower(string power) {factionPowers.push_back(power);}
-void Map::Node::removeFactionPower(string power) {factionPowers.erase( std::remove(factionPowers.begin(), factionPowers.end(), std::string(power)), factionPowers.end() );}
-void Map::Node::clearFactionPowers() {factionPowers.clear();}
-vector<string> Map::Node::getFactionPowers() {return factionPowers;}
+void Map::Node::addscoreMod(Modifier * power) {scoreMods.push_back(power);}
+Modifier* Map::Node::removescoreMod() {
+    Modifier * temp = nullptr;
+    for(auto mod : scoreMods){
+        if(mod->getName() != "Mountain"){
+            temp = mod;
+            scoreMods.erase(find(scoreMods.begin(),scoreMods.end(),mod));
+            break;
+        }
+    }
+    return temp;
+}
+void Map::Node::clearscoreMods() {scoreMods.clear();}
+vector<string> Map::Node::getscoreMods() {
+    vector<string> temp;
+    for(auto mod : scoreMods)
+        temp.push_back(mod->getName());
+    return temp;
+}
 
 
 
@@ -262,7 +281,7 @@ string Map::getFaction(string node) {return nodes[node]->getFaction();}
 void Map::setModifiers(string node, vector<string> mods) {nodes[node]->setModifiers(mods);}
 void Map::setTerrain(string node, string type) {nodes[node]->setTerrain(type);}
 void Map::toggleEdge(string node) {nodes[node]->toggleEdge();}
-void Map::setReinforcements(string node, int i) {nodes[node]->setReinforcements(i);}
+void Map::setReinforcements(string node, vector<Token*> &tokens) {nodes[node]->setReinforcements(tokens);}
 int Map::getReinforcements(string node) {nodes[node]->getReinforcements();}
 
 string Map::getTerrain(string node){
@@ -281,8 +300,8 @@ void Map::removeModifier(string node, string modifier) {
 }
 vector<string> Map::getModifiers(string node){return nodes[node]->getModifiers();}
 
-void Map::addFactionPower(string node, string power) {nodes[node]->addFactionPower(power);}
-void Map::removeFactionPower(string node, string power) {nodes[node]->removeFactionPower(power);}
-void Map::clearFactionPowers(string node) {nodes[node]->clearFactionPowers();}
-vector<string> Map::getFactionPowers(string node) {return nodes[node]->getFactionPowers();}
+void Map::addscoreMod(string node, Modifier* mod) {nodes[node]->addscoreMod(mod);}
+Modifier* Map::removescoreMod(string node) { return nodes[node]->removescoreMod();}
+void Map::clearscoreMods(string node) {nodes[node]->clearscoreMods();}
+vector<string> Map::getscoreMods(string node) {return nodes[node]->getscoreMods();}
 

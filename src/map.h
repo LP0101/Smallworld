@@ -9,6 +9,7 @@
 #include <iostream>
 #include <map>
 #include <algorithm>
+#include "gamebox.h"
 using namespace std;
 
 
@@ -34,13 +35,13 @@ public:
     vector<string> getModifiers(string node);
     void toggleEdge(string node);
     string getTerrain(string node);
-    void setReinforcements(string node, int i);
+    void setReinforcements(string node, vector<Token*> &);
     int getReinforcements(string node);
     string getFaction(string node);
-    void addFactionPower(string node, string power);
-    void removeFactionPower(string node, string power);
-    void clearFactionPowers(string node);
-    vector<string> getFactionPowers(string node);
+    void addscoreMod(string node, Modifier* power);
+    Modifier* removescoreMod(string node);
+    void clearscoreMods(string node);
+    vector<string> getscoreMods(string node);
 
     //LINK METHODS
     bool addLink(string from, string to);
@@ -64,8 +65,9 @@ class Map::Node{
 private:
     std::string name, faction, terrain;
     Map::Link *firstIn, *firstOut, *lastIn, *lastOut;
-    vector<std::string> modifiers, factionPowers;
-    int reinforcements;
+    vector<std::string> modifiers;
+    vector<Modifier*> scoreMods;
+    vector<Token*> reinforcements;
     bool edge;
 public:
     Node(std::string &name);
@@ -78,15 +80,15 @@ public:
     bool setFaction(std::string fac);
     void setTerrain(string type);
     void setModifiers(vector<string> mods);
-    void addFactionPower(string power);
-    void removeFactionPower(string power);
-    void clearFactionPowers();
-    vector<string> getFactionPowers();
+    void addscoreMod(Modifier* mod);
+    Modifier* removescoreMod();
+    void clearscoreMods();
+    vector<string> getscoreMods();
     vector<Map::Node*> getAdjacent();
     vector<Map::Node*> getAdjacentControlled();
     void toggleEdge();
     string getTerrain();
-    void setReinforcements(int i);
+    void setReinforcements(vector<Token*> tokens);
     int getReinforcements();
     void addModifier(string mod);
     void removeModifier(string mod);

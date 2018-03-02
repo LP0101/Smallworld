@@ -47,6 +47,7 @@ int main() {
     luca.picks_race(2);
     cout << "VP: " << luca.getVp() << endl;
     cout << endl << "Races 1 and 0 now have a point value of (1). New race is added to the top 6" << endl;
+    cout << "Player now has " + to_string(luca.getTokens()) + " tokens" << endl;
 
     top = f->topDecks();
     for(string faction : top){
@@ -64,6 +65,8 @@ int main() {
 
     a->printAdjacentControlled("Fo1");
 
+    cout << "Zone W1 has " << a->getReinforcements("W1") << " tokens on it" << endl;
+
     cout << "\nToken values of each Race+Power combo are given in the GameConfig settings files" << endl;
 
     cout << "Scoring is based on number of zones controlled." << endl;
@@ -77,14 +80,14 @@ int main() {
 
     cout << "\nPieces such as 'Fortress,' 'Dragon,' etc. Are handled through the map object itself, with faction powers on each node" << endl;
     cout << "Adding a dragon to node 'Fo1' can be done like this" << endl;
-    a->addFactionPower("Fo1","Dragon");
+    luca.addMod("Fo1");
     cout << "Faction Powers on Fo1 are: " << endl;
-    for(string mods : a->getFactionPowers("Fo1")){
+    for(string mods : a->getscoreMods("Fo1")){
         cout << mods << endl;
     }
     cout << endl << "Removing Dragon, the powers are empty: ";
-    a->removeFactionPower("Fo1", "Dragon");
-    for(string mods : a->getFactionPowers("Fo1")){
+    luca.removeMod("Fo1");
+    for(string mods : a->getscoreMods("Fo1")){
         cout << mods << endl;
     }
 
