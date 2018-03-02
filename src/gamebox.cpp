@@ -55,3 +55,22 @@ vector<vCoin*> Gamebox::giveCoins(int i) {
     }
     return coins;
 }
+void Gamebox::returnCoins(vector<vCoin *> coins) {
+    for(auto coin : coins){
+        if(coin->getValue() == 1)
+            oneCoins.push_back(coin);
+        if(coin->getValue() == 3)
+            threeCoins.push_back(coin);
+        if(coin->getValue() == 5)
+            fiveCoins.push_back(coin);
+        if(coin->getValue() == 10)
+            tenCoins.push_back(coin);
+    }
+}
+
+void Gamebox::transfer(vector<vCoin *> * coins) {
+   last = coins;
+}
+vector<vCoin*> Gamebox::transfer() {
+    return *last;
+}

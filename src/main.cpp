@@ -32,7 +32,7 @@ int main() {
     cout << "3 was rolled " + to_string(r.getPercentage(3)) << endl;
 
     cout << endl << "Making a new deck of factions using files in GameConfig" << endl;
-    Factions *f = new Factions("GameConfig/Races","GameConfig/Powers");
+    Factions *f = new Factions("GameConfig/Races","GameConfig/Powers",g);
     vector<string> top = f->topDecks();
 
     cout << "The top 6 power/race combinations in the deck are: " << endl;

@@ -11,7 +11,7 @@
 
 //Factions are built using the two files in GameConfig. Each power/race has its token value beside it.
 
-Factions::Factions(string r, string p){
+Factions::Factions(string r, string p, Gamebox *gamebox){
     string line, name;
     int toks;
     ifs.open("../"+r);
@@ -39,6 +39,7 @@ Factions::Factions(string r, string p){
     for (int i=0;i<6;i++){
         values.push_back(new vector<vCoin*>);
     }
+    g = gamebox;
 }
 
 vector<string> Factions::topDecks() {
@@ -56,6 +57,7 @@ Faction *Factions::take(int i, vector<vCoin*> cost) {
     for(int j=0; j<i; j++){
         values[j]->push_back(cost[j]);
     }
+    g->transfer(values[i]);
     delete values[i];
     values.erase(values.begin()+i);
     powers.erase(powers.begin()+i);

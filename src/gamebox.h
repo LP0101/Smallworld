@@ -12,6 +12,9 @@
 class Gamebox {
 public:
     vector<vCoin*> giveCoins(int i);
+    void returnCoins(vector<vCoin*>);
+    void transfer(vector<vCoin*>*);
+    vector<vCoin*> transfer();
     Gamebox();
 
 private:
@@ -21,6 +24,7 @@ private:
     vector<vCoin*> tenCoins;
     vector<Token*> tokens;
     vector<Modifier*> modifiers;
+    vector<vCoin*> *last;
 };
 
 

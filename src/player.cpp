@@ -26,8 +26,6 @@ Player::Player(string n, Factions *f, Map *m, Gamebox *g){
 void Player::picks_race(int i) {
     if(oneP.size()<i)
         throw new exception;
-//    vp-=i;
-//    vp+=deck->requestValue(i);
     vector<vCoin*> payment;
     for(int j=0;j<i;j++){
         payment.push_back(oneP[0]);
@@ -53,6 +51,9 @@ void Player::picks_race(int i) {
                 primary=choice;
             }
         }
+    }
+    for(auto coin : box->transfer()){
+        oneP.push_back(coin);
     }
 }
 //sets a node to the player's race and adds the given number of tokens to that node. Also removes that many tokens from the player's primary race

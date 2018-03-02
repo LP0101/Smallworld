@@ -10,6 +10,7 @@
 #include <fstream>
 #include "faction.h"
 #include "piece.h"
+#include "gamebox.h"
 
 
 using namespace std;
@@ -17,7 +18,7 @@ using namespace std;
 
 class Factions {
 public:
-    Factions(string races, string powers);
+    Factions(string races, string powers, Gamebox * gamebox);
     vector<string> topDecks();
     Faction* take(int i, vector<vCoin*> cost);
     void giveBack(Faction* f);
@@ -27,6 +28,7 @@ private:
     vector<Power*> powers;
     fstream ifs;
     vector<vector<vCoin*>*> values;
+    Gamebox *g;
 };
 
 
