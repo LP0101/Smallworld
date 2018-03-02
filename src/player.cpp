@@ -14,6 +14,11 @@ Player::Player(string n, Factions *f, Map *m, Gamebox *g){
     dice = new rDice();
     box = g;
     summarySheet = "Rules and stuff";
+    primaryTokens = nullptr;
+    //TEST FUNCTION IGNORE
+    for(int i=0; i<20;i++){
+        oneP.push_back(new vCoin(1));
+    }
 }
 //picks a race, paying the appropriate price for it. Also increases the player's victory points by the race's value
 //Moves the player's primary race to secondary, and gives the secondary race back to the deck.
@@ -23,7 +28,12 @@ void Player::picks_race(int i) {
         throw new exception;
 //    vp-=i;
 //    vp+=deck->requestValue(i);
-    Faction *choice = deck->take(i);
+    vector<vCoin*> payment;
+    for(int j=0;j<i;j++){
+        payment.push_back(oneP[0]);
+        oneP.erase(oneP.begin());
+    }
+    Faction *choice = deck->take(i,payment);
     if(primary == nullptr)
         primary = choice;
     else{
@@ -78,12 +88,13 @@ void Player::addVp(vector<vCoin*> points) {
             tenP.push_back(coin);
     }
 }
-vCoin* Player::removeVp(int i) {
+vector<vCoin*> Player::removeVp(int i) {
     vector<vCoin*> coins;
     for(int j=0;j<i;j++){
         coins.push_back(oneP[0]);
-        oneP.erase(oneP.begin() + i);
+        oneP.erase(oneP.begin());
     }
+    return coins;
 }
 int Player::getVp(){
     return oneP.size() + threeP.size() * 3 + fiveP.size() * 5 + tenP.size() * 10;

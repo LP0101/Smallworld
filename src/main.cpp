@@ -8,6 +8,7 @@ using namespace std;
 
 int main() {
     Map *a = new Map();
+    Gamebox *g = new Gamebox();
     a->build("Maps/ThreePlayersR2.map");
 
     cout << "New map created based on given picture" << endl << endl;
@@ -41,7 +42,7 @@ int main() {
     }
 
     cout << endl << "Making a new player using the created deck and map. For testing, players start with 20 Victory Points" << endl;
-    Player luca = Player("luca",f,a);
+    Player luca = Player("luca",f,a,g);
     cout << "Player chooses race in slot [2]. Victory Points drop by 2." << endl;
     luca.picks_race(2);
     cout << "VP: " << luca.getVp() << endl;

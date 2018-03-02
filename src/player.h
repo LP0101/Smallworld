@@ -26,7 +26,7 @@ public:
     void scores();
     int getVp();
     void addVp(vector<vCoin*>);
-    vCoin *removeVp(int i);
+    vector<vCoin*> removeVp(int i);
     rDice *dice;
     string readSummarySheet();
 
@@ -38,6 +38,7 @@ private:
     Factions *deck;
     Map *map;
     Gamebox *box;
+    Token *primaryTokens;
 
 };
 

@@ -19,14 +19,14 @@ class Factions {
 public:
     Factions(string races, string powers);
     vector<string> topDecks();
-    Faction* take(int i);
+    Faction* take(int i, vector<vCoin*> cost);
     void giveBack(Faction* f);
     int requestValue(int i);
 private:
     vector<Race*> races;
     vector<Power*> powers;
     fstream ifs;
-    vector<vCoin*> values;
+    vector<vector<vCoin*>*> values;
 };
 
 

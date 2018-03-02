@@ -35,8 +35,9 @@ Factions::Factions(string r, string p){
 
     shuffle(powers.begin(),powers.end(),std::default_random_engine(time(NULL)));
     shuffle(races.begin(),races.end(),std::default_random_engine(time(NULL)+420)); //different random seeds as they run at the same time
-    for(int i=0;i<6;i++){
-        values.push_back(nullptr);
+
+    for (int i=0;i<6;i++){
+        values.push_back(new vector<vCoin*>);
     }
 }
 
@@ -44,21 +45,19 @@ vector<string> Factions::topDecks() {
     vector<string> topdecks;
     string combo;
     for(int i = 0;i<6;i++){
-        combo = to_string(i) + ": " + powers[i]->getName() + " " + races[i]->getName() + " (" + to_string(values[i]) + ")";
+        combo = to_string(i) + ": " + powers[i]->getName() + " " + races[i]->getName() + " (" + to_string(values[i]->size()) + ")";
         topdecks.push_back(combo);
     }
    return topdecks;
 }
 //Takes a card from the "deck" and returns a faction object. Also adds 1 to the value of every card above it, and shifts the value array down by 1
-Faction *Factions::take(int i) {
+Faction *Factions::take(int i, vector<vCoin*> cost) {
     Faction *request = new Faction(powers[i],races[i]);
     for(int j=0; j<i; j++){
-        values[j]+=1;
+        values[j]->push_back(cost[j]);
     }
-    for(int j=i; j<4; j++){
-        values[j]=values[j+1];
-    }
-    values[5]=0;
+    delete values[i];
+    values.erase(values.begin()+i);
     powers.erase(powers.begin()+i);
     races.erase(races.begin()+i);
     return request;
@@ -70,4 +69,4 @@ void Factions::giveBack(Faction* f) {
     races.push_back(f->getRace());
     delete f;
 }
-int Factions::requestValue(int i) {return values[i];}
+//int Factions::requestValue(int i) {return values[i];}
