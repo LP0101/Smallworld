@@ -102,10 +102,10 @@ vector<Token*> Gamebox::giveTokens(string race, int quantity) {
 
 Modifier* Gamebox::giveModifier(string name) {
     Modifier * temp;
-    for(int i=0;i<modifiers.size(); i++){
-        if (modifiers[i]->getName() == name){
-            temp = modifiers[i];
-            modifiers.erase(modifiers.begin()+i);
+    for(auto mod : modifiers){
+        if (mod->getName() == name){
+            temp = mod;
+            modifiers.erase(std::remove(modifiers.begin(), modifiers.end(), mod), modifiers.end());
             break;
         }
     }

@@ -43,6 +43,7 @@ public:
     void clearscoreMods(string node);
     vector<Modifier *> getscoreMods(string node);
     std::map<string,Map::Node*> getNodes();
+    vector<string> getControlled(string race);
 
     //LINK METHODS
     bool addLink(string from, string to);

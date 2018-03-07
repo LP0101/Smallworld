@@ -32,6 +32,7 @@ private:
    Gamebox* box;
     bool parse(string command, Player* p);
     vector<string> split(string);
+    bool conquer(vector<string> commands, Player * p);
 
 };
 

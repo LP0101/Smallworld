@@ -26,13 +26,10 @@ void GameEngine::init() {
     for (auto const& x : map->getNodes())
 {
     if(x.second->getTerrain() == "Mountain"){
-//        cout << "Mountain found!" << endl;
         x.second->addscoreMod(box->giveModifier("Mountain"));
     }
 }
-//    for(Modifier * mod : map->getscoreMods("M1")){
-//        cout << mod->getName() << endl;
-//    }
+
     for(int i=0;i<playerCount;i++){
         cout << "Player " + to_string(i+1)+ ", please input your name: ";
         string playername;
@@ -61,26 +58,35 @@ bool GameEngine::parse(string command, Player * p) {
     }
     vector<string> commands = split(command);
     if(commands[0] == "conquer"){
-        int cost = 0;
-        cost +=2;
-        cost += map->getReinforcements(commands[1]);
-        for(auto mod : map->getscoreMods(commands[1])){
-            if(mod->getEffect() == 1)
-               cost+=1;
-            else{
-                cout << "Cannot capture this node!" << endl;
-                return true;
-            }
-        }
-        if(stoi(commands[2]) < cost){
-            cout << "Not enough units, try again or use finalConquest" << endl;
-            return true;
-        }
-        p->conquers(commands[1],stoi(commands[2]));
-        cout << commands[1] << " belongs to " << p->getName() << " with " << map->getReinforcements(commands[1]) << " " << map->getFaction(commands[1]) << " tokens" << endl;
-        return true;
+      return conquer(commands,p);
     }
     cout << "Invalid command" << endl;
+    return true;
+
+}
+
+bool GameEngine::conquer(vector<string> commands, Player *p) {
+    int cost = 0;
+    bool firstConquest = false;
+    cost +=2;
+    cost += map->getReinforcements(commands[1]);
+    for(auto mod : map->getscoreMods(commands[1])){
+        if(mod->getEffect() == 1)
+            cost+=1;
+        else{
+            cout << "Cannot capture this node!" << endl;
+            return true;
+        }
+    }
+//    vector<string> controlled = this->map->getControlled(p->getPrimary()->getRace()->getName());
+    //check if first conquest
+    if(stoi(commands[2]) < cost){
+        cout << "Not enough units, try again or use finalConquest" << endl;
+        return true;
+    }
+    p->conquers(commands[1],stoi(commands[2]));
+    cout << commands[1] << " belongs to " << p->getName() << " with " << map->getReinforcements(commands[1]) << " " << map->getFaction(commands[1]) << " tokens" << endl;
+    return true;
 
 }
 
