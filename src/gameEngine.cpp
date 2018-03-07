@@ -18,12 +18,14 @@ void GameEngine::init() {
     string mapFile = "Maps/" + to_string(playerCount) + "players.map";
     cout << "Loading ../" + mapFile << endl;
     map = new Map();
+    box = new Gamebox();
     map->build(mapFile);
-    for(auto const& [key, val] : map->getNodes()){
-        if(val->getTerrain() == "Mountain")
-            cout << "Mountain found";
-
+    for (auto const& x : map->getNodes())
+{
+    if(x.second->getTerrain() == "Mountain"){
+        x.second->addscoreMod(box->giveModifier("Mountain"));
     }
+}
     for(int i=0;i<playerCount;i++){
         cout << "Player " + to_string(i+1)+ ", please input your name: ";
         string playername;

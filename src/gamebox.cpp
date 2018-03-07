@@ -26,6 +26,8 @@ Gamebox::Gamebox() {
     for(int i=0;i<10;i++){ tokens.push_back(new Token("Trolls"));}
     for(int i=0;i<10;i++){ tokens.push_back(new Token("Wizards"));}
     for(int i=0;i<10;i++){ tokens.push_back(new Token("Lost Tribes"));}
+
+    for(int i=0;i<10;i++){ modifiers.push_back(new Modifier("Mountain", 1));}
 }
 
 vector<vCoin*> Gamebox::giveCoins(int i) {
@@ -93,11 +95,12 @@ vector<Token*> Gamebox::giveTokens(string race, int quantity) {
 }
 
 Modifier* Gamebox::giveModifier(string name) {
-    Modifier * temp = nullptr;
-    for(auto modifier : modifiers){
-        if (modifier->getName() == name){
-            temp = modifier;
-            modifiers.erase(find(modifiers.begin(),modifiers.end(),modifier));
+    Modifier * temp;
+    for(int i=0;i<modifiers.size(); i++){
+        if (modifiers[i]->getName() == name){
+            temp = modifiers[i];
+            modifiers.erase(modifiers.begin()+i);
         }
     }
+    return temp;
 }
