@@ -18,6 +18,7 @@ public:
     int getTokens();
     Race* getRace();
     Power* getPower();
+    bool getDecline();
 
 private:
     string name;

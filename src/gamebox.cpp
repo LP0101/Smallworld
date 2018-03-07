@@ -27,7 +27,13 @@ Gamebox::Gamebox() {
     for(int i=0;i<10;i++){ tokens.push_back(new Token("Wizards"));}
     for(int i=0;i<10;i++){ tokens.push_back(new Token("Lost Tribes"));}
 
-    for(int i=0;i<10;i++){ modifiers.push_back(new Modifier("Mountain", 1));}
+    for(int i=0;i<9;i++){ modifiers.push_back(new Modifier("Mountain", 1));}
+    for(int i=0;i<10;i++){ modifiers.push_back(new Modifier("Troll Lair", 1));}
+    for(int i=0;i<6;i++){ modifiers.push_back(new Modifier("Fortress", 1));}
+    for(int i=0;i<5;i++){ modifiers.push_back(new Modifier("Encampment",1));}
+    for(int i=0;i<2;i++){ modifiers.push_back(new Modifier("Hole-in-the-Ground",2));}
+    for(int i=0;i<2;i++){ modifiers.push_back(new Modifier("Hero",2));}
+    modifiers.push_back(new Modifier("Dragon",2));
 }
 
 vector<vCoin*> Gamebox::giveCoins(int i) {
@@ -100,6 +106,7 @@ Modifier* Gamebox::giveModifier(string name) {
         if (modifiers[i]->getName() == name){
             temp = modifiers[i];
             modifiers.erase(modifiers.begin()+i);
+            break;
         }
     }
     return temp;

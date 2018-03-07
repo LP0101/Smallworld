@@ -30,3 +30,5 @@ Race* Faction::getRace(){
 }
 Power* Faction::getPower() {return power;}
 int Faction::getTokens() {return tokens;}
+
+bool Faction::getDecline() {return decline;}

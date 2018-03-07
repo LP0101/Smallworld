@@ -10,4 +10,5 @@ using namespace std;
 int main() {
     GameEngine engine = GameEngine();
     engine.init();
+    engine.gameLoop();
 }

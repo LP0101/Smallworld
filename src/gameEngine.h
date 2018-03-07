@@ -10,18 +10,28 @@
 #include "factions.h"
 #include "gamebox.h"
 #include "player.h"
+#include <sstream>
 
 
 class GameEngine {
 public:
     GameEngine();
     void init();
+    void gameLoop();
 
 private:
    Map* map;
+    int turns;
+    int MAX_TURNS;
+    void prePhase(Player * p);
+    void mainPhase(Player * p);
+    void reinforcePhase(Player * p);
+    void endPhase(Player * p);
    vector<Player*> players;
    Factions* deck;
    Gamebox* box;
+    bool parse(string command, Player* p);
+    vector<string> split(string);
 
 };
 

@@ -120,3 +120,7 @@ int Player::getTokens() {return primaryTokens.size();}
 
 void Player::addMod(string node) {map->addscoreMod(node,powerMods[0]); powerMods.erase(powerMods.begin());}
 void Player::removeMod(string node) {powerMods.push_back(map->removescoreMod(node));}
+
+Faction * Player::getPrimary() {return primary;}
+
+string Player::getName(){ return name;}

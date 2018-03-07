@@ -41,7 +41,7 @@ public:
     void addscoreMod(string node, Modifier* power);
     Modifier* removescoreMod(string node);
     void clearscoreMods(string node);
-    vector<string> getscoreMods(string node);
+    vector<Modifier *> getscoreMods(string node);
     std::map<string,Map::Node*> getNodes();
 
     //LINK METHODS
@@ -84,7 +84,7 @@ public:
     void addscoreMod(Modifier* mod);
     Modifier* removescoreMod();
     void clearscoreMods();
-    vector<string> getscoreMods();
+    vector<Modifier *> getscoreMods();
     vector<Map::Node*> getAdjacent();
     vector<Map::Node*> getAdjacentControlled();
     void toggleEdge();

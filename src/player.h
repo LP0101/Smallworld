@@ -32,6 +32,8 @@ public:
     string readSummarySheet();
     void addMod(string node);
     void removeMod(string node);
+    Faction * getPrimary();
+    string getName();
 
 private:
     vector<vCoin*> oneP,threeP,fiveP,tenP;

@@ -235,9 +235,10 @@ string Map::Node::getTerrain(){
 }
 void Map::Node::setReinforcements(vector<Token*> tokens) {
     reinforcements.clear();
-    for(auto token : tokens){
-        reinforcements.push_back(token);
-    }
+//    for(auto token : tokens){
+//        reinforcements.push_back(token);
+//    }
+    reinforcements = tokens;
 }
 int Map::Node::getReinforcements() {return reinforcements.size();}
 string Map::Node::getFaction() {return faction;}
@@ -254,11 +255,14 @@ Modifier* Map::Node::removescoreMod() {
     return temp;
 }
 void Map::Node::clearscoreMods() {scoreMods.clear();}
-vector<string> Map::Node::getscoreMods() {
-    vector<string> temp;
-    for(auto mod : scoreMods)
-        temp.push_back(mod->getName());
-    return temp;
+
+vector<Modifier *> Map::Node::getscoreMods() {
+//    vector<Modifier *> temp;
+//    for(Modifier * mod : scoreMods) {
+//        temp.push_back(mod);
+//    }
+//    return temp;
+    return scoreMods;
 }
 
 std::map<string,Map::Node*> Map::getNodes() {return nodes;}
@@ -284,7 +288,7 @@ void Map::setModifiers(string node, vector<string> mods) {nodes[node]->setModifi
 void Map::setTerrain(string node, string type) {nodes[node]->setTerrain(type);}
 void Map::toggleEdge(string node) {nodes[node]->toggleEdge();}
 void Map::setReinforcements(string node, vector<Token*> &tokens) {nodes[node]->setReinforcements(tokens);}
-int Map::getReinforcements(string node) {nodes[node]->getReinforcements();}
+int Map::getReinforcements(string node) { return nodes[node]->getReinforcements();}
 
 string Map::getTerrain(string node){
     return nodes[node]->getTerrain();
@@ -305,5 +309,5 @@ vector<string> Map::getModifiers(string node){return nodes[node]->getModifiers()
 void Map::addscoreMod(string node, Modifier* mod) {nodes[node]->addscoreMod(mod);}
 Modifier* Map::removescoreMod(string node) { return nodes[node]->removescoreMod();}
 void Map::clearscoreMods(string node) {nodes[node]->clearscoreMods();}
-vector<string> Map::getscoreMods(string node) {return nodes[node]->getscoreMods();}
+vector<Modifier *> Map::getscoreMods(string node) {return nodes[node]->getscoreMods();}
 
