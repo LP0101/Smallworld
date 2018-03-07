@@ -61,10 +61,26 @@ bool GameEngine::parse(string command, Player * p) {
     }
     vector<string> commands = split(command);
     if(commands[0] == "conquer"){
+        int cost = 0;
+        cost +=2;
+        cost += map->getReinforcements(commands[1]);
+        for(auto mod : map->getscoreMods(commands[1])){
+            if(mod->getEffect() == 1)
+               cost+=1;
+            else{
+                cout << "Cannot capture this node!" << endl;
+                return true;
+            }
+        }
+        if(stoi(commands[2]) < cost){
+            cout << "Not enough units, try again or use finalConquest" << endl;
+            return true;
+        }
         p->conquers(commands[1],stoi(commands[2]));
         cout << commands[1] << " belongs to " << p->getName() << " with " << map->getReinforcements(commands[1]) << " " << map->getFaction(commands[1]) << " tokens" << endl;
         return true;
     }
+    cout << "Invalid command" << endl;
 
 }
 
