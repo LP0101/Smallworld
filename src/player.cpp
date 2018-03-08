@@ -14,6 +14,7 @@ Player::Player(string n, Factions *f, Map *m, Gamebox *g){
     dice = new rDice();
     box = g;
     summarySheet = "Rules and stuff";
+
     //TEST FUNCTION IGNORE
     for(int i=0; i<20;i++){
         oneP.push_back(new vCoin(1));
@@ -73,21 +74,24 @@ void Player::conquers(string node,int i) {
         primaryTokens.erase(primaryTokens.begin());
     }
     map->setReinforcements(node,temp);
+    map->setPlayer(node,this->name);
 
     nodes.push_back(node);
 }
 //Invoked when a player loses a node. If the controlling race of the token is equal to the player's primary race, the tokens minus 1 are returned.
 void Player::loses(string node) {
     if(map->getFaction(node) == primary->getRace()->getName()) {
-//        primary->setTokens(primary->getTokens()+map->getReinforcements(node)-1); //incomplete - need to mark that territory was lost
         vector<Token *> tokens = map->clearReinforcements(node);
         for(int i = 0; i<tokens.size()-1;i++)
             primaryTokens.push_back(tokens[i]);
-        vector<Token *> lost = vector(1);
+        vector<Token *> lost = vector<Token *>(1);
         lost[0] = tokens[tokens.size()-1];
         box->returnTokens(lost);
     }
+    if(map->getFaction(node) == primary->getRace()->getName())
+        box->returnTokens(map->clearReinforcements(node));
     map->setFaction(node,"");
+    map->setPlayer(node,"");
     nodes.erase( std::remove(nodes.begin(), nodes.end(), std::string(node)), nodes.end() );
 }
 
@@ -136,6 +140,30 @@ vector<Token *> * Player::getTokenRef() {return &primaryTokens;}
 
 void Player::prepare() {
     for(auto node : nodes){
-
+       vector<Token *> temp;
+        if(map->getFaction(node) == primary->getRace()->getName()) {
+            temp = map->clearReinforcements(node);
+            vector<Token *> otherTemp;
+            otherTemp.push_back(temp[temp.size()-1]);
+            temp.erase(temp.begin()+temp.size()-1);
+            map->setReinforcements(node,otherTemp);
+            for(auto token : temp)
+                primaryTokens.push_back(token);
+        }
     }
 }
+
+void Player::decline(){
+    if(secondary != nullptr) {
+        for (auto node : nodes) {
+            if (map->getFaction(node) == secondary->getRace()->getName()) {
+                loses(node);
+            }
+        }
+        deck->giveBack(secondary);
+    }
+    secondary = primary;
+    primary = nullptr;
+}
+
+int Player::roll() {return dice->roll();}

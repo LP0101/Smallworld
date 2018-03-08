@@ -28,7 +28,6 @@ public:
     void addVp(vector<vCoin*>);
     int getTokens();
     vector<vCoin*> removeVp(int i);
-    rDice *dice;
     string readSummarySheet();
     void addMod(string node);
     void removeMod(string node);
@@ -36,9 +35,13 @@ public:
     string getName();
     vector<Token *> * getTokenRef();
     void prepare();
+    vector<string> getNodes();
+    void decline();
+    int roll();
 
 private:
     vector<vCoin*> oneP,threeP,fiveP,tenP;
+    rDice * dice;
     string name, summarySheet;
     Faction *primary, *secondary, *spirit;
     vector<string> nodes;

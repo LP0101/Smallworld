@@ -48,6 +48,8 @@ public:
     bool isAdjacentControl(string node, string race);
     vector<Token *> clearReinforcements(string node);
     vector<Token *> prepareNode(string node);
+    string getPlayer(string node);
+    void setPlayer(string node, string p);
 
     //LINK METHODS
     bool addLink(string from, string to);
@@ -69,7 +71,7 @@ private:
 class Map::Node{
     friend class Map::Link;
 private:
-    std::string name, faction, terrain;
+    std::string name, faction, terrain, player;
     Map::Link *firstIn, *firstOut, *lastIn, *lastOut;
     vector<std::string> modifiers;
     vector<Modifier*> scoreMods;
@@ -100,8 +102,10 @@ public:
     void removeModifier(string mod);
     vector<string> getModifiers();
     bool isEdge();
-    vector<Tokens *> clearReinforcements();
-    vector<Token *> prepareNode();
+    vector<Token *> clearReinforcements();
+    vector<Token *> prepareNode(); //NOT USED
+    string getPlayer();
+    void setPlayer(string p);
 
 };
 

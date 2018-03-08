@@ -35,6 +35,7 @@ private:
     bool conquer(vector<string> commands, Player * p);
     vector<string> getControlled(string race);
     bool firstConquest;
+    vector<Player *> lostZone;
 
 };
 

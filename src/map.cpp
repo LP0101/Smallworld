@@ -137,8 +137,9 @@ Map::Node::Node(string &a){
     firstOut = nullptr;
     lastIn = nullptr;
     lastOut = nullptr;
-    faction = "a";
+    faction = "";
     terrain = "";
+    player = "";
     edge = false;
 }
 
@@ -271,13 +272,15 @@ vector<Token *> Map::Node::clearReinforcements() {
     reinforcements.clear();
     return temp;
 }
-vector<Token *> Map::Node::prepareNode() {
+vector<Token *> Map::Node::prepareNode() {      //NOT USED
     vector<Token *> temp = reinforcements;
     reinforcements.clear();
     reinforcements.push_back(temp[temp.size()-1]);
     temp.erase(temp.end());
     return temp;
 }
+string Map::Node::getPlayer(){return player;}
+void Map::Node::setPlayer(string p) {player = p;}
 
 
 
@@ -336,3 +339,5 @@ bool Map::isAdjacentControl(string node, string race) {
 }
 vector<Token *> Map::clearReinforcements(string node) {return nodes[node]->clearReinforcements();}
 vector<Token *> Map::prepareNode(string node) {return nodes[node]->prepareNode();}
+string Map::getPlayer(string node) {return nodes[node]->getPlayer();}
+void Map::setPlayer(string node, string p) {nodes[node]->setPlayer(p);}
