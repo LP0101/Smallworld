@@ -138,7 +138,7 @@ string Player::getName(){ return name;}
 
 vector<Token *> * Player::getTokenRef() {return &primaryTokens;}
 
-void Player::prepare() {
+void Player::prepare() { //leaves each zone with just 1 token
     for(auto node : nodes){
        vector<Token *> temp;
         if(map->getFaction(node) == primary->getRace()->getName()) {

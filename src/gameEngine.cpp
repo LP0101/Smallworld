@@ -186,6 +186,37 @@ bool GameEngine::show(vector<string> commands, Player *p) {
         cout << p->getTokens() << " " << p->getPrimary()->getRace()->getName() << " tokens" << endl;
         return true;
     }
+    else if(commands[1] == "node"){
+        string node = commands[2];
+        string terrain = map->getTerrain(node);
+        string modifiers;
+        string scoremods;
+        string race = map->getFaction(node);
+        string player = map->getPlayer(node);
+        int tokens = map->getReinforcements(node);
+
+        for(auto mod : map->getModifiers(node)){
+            if(modifiers == "")
+                modifiers+=mod;
+            else{
+                modifiers+=", ";
+                modifiers+=mod;
+            }
+
+        }
+        for(auto mod : map->getscoreMods(node)){
+            if(modifiers == "")
+                scoremods+=mod->getName();
+            else{
+                scoremods+=", ";
+                scoremods+=mod->getName();
+            }
+        }
+
+        cout << "Node " << node << ":\n" << "Terrain: " << terrain << "\nModifiers: " << modifiers << "\nScore Modifiers: " << scoremods << "\nRace: " << race << "\nPlayer: " << player << "\nReinforcements: " << tokens << endl;
+        return true;
+
+    }
     else{
         cout << "Invalid command" << endl;
         return true;
@@ -216,7 +247,9 @@ void GameEngine::mainPhase(Player *p) {
     }
 }
 
+void GameEngine::reinforcePhase(Player *p) {
 
+}
 
 vector<string> GameEngine::split(string s){
     std::stringstream ss(s);

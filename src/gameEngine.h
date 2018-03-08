@@ -38,6 +38,7 @@ private:
     bool firstConquest;
     vector<Player *> lostZone;
 
+
 };
 
 

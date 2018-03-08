@@ -67,6 +67,7 @@ bool MapLoader::addNodes(){
 
 
     while(getline(nodeBuilder,line)){
+        mods.clear();
         delimiter = "|";
         name = line.substr(0, line.find(delimiter));
         m->addNode(name);
