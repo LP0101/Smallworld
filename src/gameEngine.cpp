@@ -43,6 +43,7 @@ void GameEngine::init() {
 
 void GameEngine::gameLoop() {
     while(turns < MAX_TURNS){
+        cout << "It is turn " << turns << " out of " << MAX_TURNS << endl;
         for(auto currentPlayer : players){
             cout << "Current player is: " << currentPlayer->getName() << endl;
             prePhase(currentPlayer);
@@ -58,15 +59,12 @@ bool GameEngine::parse(string command, Player * p) {
     if (command == "exit"){
         exit(0);
     }
-    if(command == "showraces") {
-        for(auto faction : deck->topDecks()){
-           cout << faction << endl;
-        }
-        return true;
-    }
     vector<string> commands = split(command);
     if(commands[0] == "conquer"){
       return conquer(commands,p);
+    }
+    if(commands[0] == "show"){
+        return show(commands,p);
     }
     cout << "Invalid command" << endl;
     return true;
@@ -75,22 +73,22 @@ bool GameEngine::parse(string command, Player * p) {
 
 bool GameEngine::conquer(vector<string> commands, Player *p) {
     bool isFinal = false;
-    if(commands.size() == 4){
-        if(commands[3] == "final")
-            isFinal = true;
-        else{
-            cout << "Invalid command!" << endl;
-            return true;
-        }
-    }
+//    if(commands.size() == 4){
+//        if(commands[3] == "final")
+//            isFinal = true;
+//        else{
+//            cout << "Invalid command!" << endl;
+//            return true;
+//        }
+//    }
     if(p->getTokens() == 0){
         cout << "You've used all your tokens!" << endl;
         return false;
     }
-    if(stoi(commands[2]) > p->getTokens() && !isFinal){
-        cout << "You do not have enough tokens for this. Use conquer <Node> <tokens> final instead!" << endl;
-        return true;
-    }
+//    if(stoi(commands[2]) > p->getTokens() && !isFinal){
+//        cout << "You do not have enough tokens for this. Use conquer <Node> <tokens> final instead!" << endl;
+//        return true;
+//    }
     int cost = 0;
     cost +=2;
     cost += map->getReinforcements(commands[1]);
@@ -120,26 +118,39 @@ bool GameEngine::conquer(vector<string> commands, Player *p) {
             return true;
         }
     }
-    if(stoi(commands[2]) < cost && !isFinal){
-        cout << "Not enough units, try again or use conquer <Node> <tokens> final" << endl;
-        return true;
-    }else if(isFinal){
-        if(stoi(commands[2]) != p->getTokens()){
-            cout << "Can only final conquest with your last tokens" << endl;
-            return true;
-        }
-        cout << "You need to roll a " << cost - stoi(commands[2]) << endl;
+//    if(stoi(commands[2]) < cost && !isFinal){
+//        cout << "Not enough units, try again or use conquer <Node> <tokens> final" << endl;
+//        return true;
+//    }else if(isFinal){
+//        if(stoi(commands[2]) != p->getTokens()){
+//            cout << "Can only final conquest with your last tokens" << endl;
+//            return true;
+//        }
+//        cout << "You need to roll a " << cost - stoi(commands[2]) << endl;
+//        int roll = p->roll();
+//        cout << "You rolled " << roll << endl;
+//        int realValue = roll + stoi(commands[2]);
+//        if(realValue < cost){
+//            cout << "Proceeding to reinforcement stage" << endl;
+//            return false;
+//        }
+//        else{
+//            cout << "You did it!" << endl;
+//        }
+//    }
+    if(cost > p->getTokens()){
+        isFinal = true;
+        cout << "You need to roll a " << cost - p->getTokens() << endl;
         int roll = p->roll();
         cout << "You rolled " << roll << endl;
-        int realValue = roll + stoi(commands[2]);
+        int realValue = roll + p->getTokens();
         if(realValue < cost){
             cout << "Proceeding to reinforcement stage" << endl;
             return false;
-        }
-        else{
+        } else
             cout << "You did it!" << endl;
-        }
     }
+
     //check which player loses
     if(map->getPlayer(commands[1]) != ""){
         for(auto player : players){
@@ -149,11 +160,36 @@ bool GameEngine::conquer(vector<string> commands, Player *p) {
             }
         }
     }
-    p->conquers(commands[1],stoi(commands[2]));
+    if(isFinal)
+        cost = p->getTokens();
+    p->conquers(commands[1],cost);
     cout << commands[1] << " belongs to " << p->getName() << " with " << map->getReinforcements(commands[1]) << " " << map->getFaction(commands[1]) << " tokens" << endl;
     firstConquest = false;
     cout << "You have " << p->getTokens() << " Tokens left" << endl;
+    if(p->getTokens() == 0)
+        isFinal = true;
     return !isFinal;
+}
+
+bool GameEngine::show(vector<string> commands, Player *p) {
+    if (commands[1] == "races"){
+        for(auto faction : deck->topDecks()){
+            cout << faction << endl;
+        }
+        return true;
+    }
+    else if ( commands[1] == "vp"){
+        cout << p->getVp() << endl;
+        return true;
+    }
+    else if(commands[1] == "tokens"){
+        cout << p->getTokens() << " " << p->getPrimary()->getRace()->getName() << " tokens" << endl;
+        return true;
+    }
+    else{
+        cout << "Invalid command" << endl;
+        return true;
+    }
 }
 
 void GameEngine::prePhase(Player *p) {
@@ -165,7 +201,7 @@ void GameEngine::mainPhase(Player *p) {
     if(p->getPrimary() == nullptr || p->getPrimary()->getDecline()){
         int choice;
         cout << "Choose a faction" << endl;
-        parse("showraces", nullptr);
+        parse("show races", nullptr);
         cin >> choice;
         p->picks_race(choice);
         firstConquest = true;
