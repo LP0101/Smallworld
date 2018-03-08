@@ -148,7 +148,6 @@ vector<Map::Node*> Map::Node::getAdjacent() {
     if(firstOut != nullptr){
         Map::Link *a = firstOut;
         while(true){
-            cout << a->to->getName() << endl;
             nodeList.push_back(a->to);
             if(a->nextOut == nullptr){
                 a=nullptr;
@@ -160,7 +159,6 @@ vector<Map::Node*> Map::Node::getAdjacent() {
     if(firstIn != nullptr){
         Map::Link *b = firstIn;
         while(true){
-            cout << b->from->getName() << endl;
             nodeList.push_back(b->from);
             if(b -> nextIn == nullptr) {
                 b=nullptr;
@@ -228,6 +226,7 @@ void Map::Node::toggleEdge() {edge = !edge;}
 void Map::Node::addModifier(string mod){modifiers.push_back(mod);}
 void Map::Node::removeModifier(string mod) {modifiers.erase( std::remove(modifiers.begin(), modifiers.end(), std::string(mod)), modifiers.end() );}
 vector<string> Map::Node::getModifiers() {return modifiers;}
+bool Map::Node::isEdge() {return edge;}
 
 
 string Map::Node::getTerrain(){
@@ -267,6 +266,19 @@ vector<Modifier *> Map::Node::getscoreMods() {
 
 std::map<string,Map::Node*> Map::getNodes() {return nodes;}
 
+vector<Token *> Map::Node::clearReinforcements() {
+    vector<Token *> temp = reinforcements;
+    reinforcements.clear();
+    return temp;
+}
+vector<Token *> Map::Node::prepareNode() {
+    vector<Token *> temp = reinforcements;
+    reinforcements.clear();
+    reinforcements.push_back(temp[temp.size()-1]);
+    temp.erase(temp.end());
+    return temp;
+}
+
 
 
 //MAP
@@ -279,6 +291,8 @@ void Map::printAdjacent(string node) {
 void Map::printAdjacentControlled(string node){
     nodes[node]->getAdjacentControlled();
 }
+
+
 
 bool Map::setFaction(std::string node, std::string faction){
     return nodes[node]->setFaction(faction);
@@ -310,4 +324,15 @@ void Map::addscoreMod(string node, Modifier* mod) {nodes[node]->addscoreMod(mod)
 Modifier* Map::removescoreMod(string node) { return nodes[node]->removescoreMod();}
 void Map::clearscoreMods(string node) {nodes[node]->clearscoreMods();}
 vector<Modifier *> Map::getscoreMods(string node) {return nodes[node]->getscoreMods();}
+bool Map::isEdge(string node) {return nodes[node]->isEdge();}
 
+bool Map::isAdjacentControl(string node, string race) {
+    vector<Node *> temp = nodes[node]->getAdjacent();
+    for(auto n : temp){
+        if(n->getFaction() == race)
+            return true;
+    }
+    return false;
+}
+vector<Token *> Map::clearReinforcements(string node) {return nodes[node]->clearReinforcements();}
+vector<Token *> Map::prepareNode(string node) {return nodes[node]->prepareNode();}

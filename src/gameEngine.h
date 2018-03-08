@@ -33,6 +33,8 @@ private:
     bool parse(string command, Player* p);
     vector<string> split(string);
     bool conquer(vector<string> commands, Player * p);
+    vector<string> getControlled(string race);
+    bool firstConquest;
 
 };
 

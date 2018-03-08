@@ -44,6 +44,10 @@ public:
     vector<Modifier *> getscoreMods(string node);
     std::map<string,Map::Node*> getNodes();
     vector<string> getControlled(string race);
+    bool isEdge(string node);
+    bool isAdjacentControl(string node, string race);
+    vector<Token *> clearReinforcements(string node);
+    vector<Token *> prepareNode(string node);
 
     //LINK METHODS
     bool addLink(string from, string to);
@@ -95,6 +99,9 @@ public:
     void addModifier(string mod);
     void removeModifier(string mod);
     vector<string> getModifiers();
+    bool isEdge();
+    vector<Tokens *> clearReinforcements();
+    vector<Token *> prepareNode();
 
 };
 

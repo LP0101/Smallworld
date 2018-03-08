@@ -78,8 +78,15 @@ void Player::conquers(string node,int i) {
 }
 //Invoked when a player loses a node. If the controlling race of the token is equal to the player's primary race, the tokens minus 1 are returned.
 void Player::loses(string node) {
-    if(map->getFaction(node) == primary->getRace()->getName())
+    if(map->getFaction(node) == primary->getRace()->getName()) {
 //        primary->setTokens(primary->getTokens()+map->getReinforcements(node)-1); //incomplete - need to mark that territory was lost
+        vector<Token *> tokens = map->clearReinforcements(node);
+        for(int i = 0; i<tokens.size()-1;i++)
+            primaryTokens.push_back(tokens[i]);
+        vector<Token *> lost = vector(1);
+        lost[0] = tokens[tokens.size()-1];
+        box->returnTokens(lost);
+    }
     map->setFaction(node,"");
     nodes.erase( std::remove(nodes.begin(), nodes.end(), std::string(node)), nodes.end() );
 }
@@ -124,3 +131,11 @@ void Player::removeMod(string node) {powerMods.push_back(map->removescoreMod(nod
 Faction * Player::getPrimary() {return primary;}
 
 string Player::getName(){ return name;}
+
+vector<Token *> * Player::getTokenRef() {return &primaryTokens;}
+
+void Player::prepare() {
+    for(auto node : nodes){
+
+    }
+}

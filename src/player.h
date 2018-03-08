@@ -34,6 +34,8 @@ public:
     void removeMod(string node);
     Faction * getPrimary();
     string getName();
+    vector<Token *> * getTokenRef();
+    void prepare();
 
 private:
     vector<vCoin*> oneP,threeP,fiveP,tenP;

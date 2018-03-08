@@ -111,3 +111,9 @@ Modifier* Gamebox::giveModifier(string name) {
     }
     return temp;
 }
+
+void Gamebox::returnTokens(vector<Token *> tokens) {
+    for(auto token : tokens){
+        this->tokens.push_back(token);
+    }
+}

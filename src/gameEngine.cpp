@@ -17,6 +17,7 @@ void GameEngine::init() {
     cin >> playerCount;
     string mapFile = "Maps/" + to_string(playerCount) + "players.map";
     cout << "Loading ../" + mapFile << endl;
+    firstConquest = false;
     MAX_TURNS = 10;
     turns = 0;
     map = new Map();
@@ -38,18 +39,24 @@ void GameEngine::init() {
     }
 }
 
+
+
 void GameEngine::gameLoop() {
     while(turns < MAX_TURNS){
         for(auto currentPlayer : players){
             cout << "Current player is: " << currentPlayer->getName() << endl;
             prePhase(currentPlayer);
             mainPhase(currentPlayer);
+            firstConquest = false; //MOVE THIS
         }
     }
 
 }
 
 bool GameEngine::parse(string command, Player * p) {
+    if (command == "exit"){
+        exit(0);
+    }
     if(command == "showraces") {
         for(auto faction : deck->topDecks()){
            cout << faction << endl;
@@ -67,7 +74,6 @@ bool GameEngine::parse(string command, Player * p) {
 
 bool GameEngine::conquer(vector<string> commands, Player *p) {
     int cost = 0;
-    bool firstConquest = false;
     cost +=2;
     cost += map->getReinforcements(commands[1]);
     for(auto mod : map->getscoreMods(commands[1])){
@@ -78,14 +84,32 @@ bool GameEngine::conquer(vector<string> commands, Player *p) {
             return true;
         }
     }
+    if(map->getTerrain(commands[1]) == "Water" && p->getPrimary()->getPower()->getName() != "Seafaring"){
+        cout << "Not seafaring, cannot capture water!" << endl;
+        return true;
+    }
 //    vector<string> controlled = this->map->getControlled(p->getPrimary()->getRace()->getName());
     //check if first conquest
+    if(firstConquest){
+        if(!map->isEdge(commands[1])){
+           cout << "First conquest must be on an edge!" << endl;
+            return true;
+        }
+    }
+    else{
+        if(!map->isAdjacentControl(commands[1],p->getPrimary()->getRace()->getName())){
+            cout << "This territory is not adjacent to your active race" << endl;
+            return true;
+        }
+    }
     if(stoi(commands[2]) < cost){
         cout << "Not enough units, try again or use finalConquest" << endl;
         return true;
     }
     p->conquers(commands[1],stoi(commands[2]));
     cout << commands[1] << " belongs to " << p->getName() << " with " << map->getReinforcements(commands[1]) << " " << map->getFaction(commands[1]) << " tokens" << endl;
+    firstConquest = false;
+    cout << "You have " << p->getTokens() << " Tokens left" << endl;
     return true;
 
 }
@@ -102,22 +126,25 @@ void GameEngine::mainPhase(Player *p) {
         parse("showraces", nullptr);
         cin >> choice;
         p->picks_race(choice);
+        firstConquest = true;
     }
     bool cont = true;
     while(cont) {
         string command;
         cout << ">> ";
-        cin.ignore();
+        cin >> ws;
         getline(cin,command);
         cont = parse(command, p);
     }
 }
+
+
 
 vector<string> GameEngine::split(string s){
     std::stringstream ss(s);
     std::istream_iterator<std::string> begin(ss);
     std::istream_iterator<std::string> end;
     std::vector<std::string> vstrings(begin, end);
-    std::copy(vstrings.begin(), vstrings.end(), std::ostream_iterator<std::string>(std::cout, "\n"));
+//    std::copy(vstrings.begin(), vstrings.end(), std::ostream_iterator<std::string>(std::cout, "\n"));
     return vstrings;
 }

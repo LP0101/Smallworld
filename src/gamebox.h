@@ -17,6 +17,7 @@ public:
     vector<vCoin*> transfer();
     Gamebox();
     vector<Token*> giveTokens(string race, int quantity);
+    void returnTokens(vector<Token *> tokens);
     Modifier* giveModifier(string name);
 
 private:
