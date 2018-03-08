@@ -38,6 +38,7 @@ public:
     vector<string> getNodes();
     void decline();
     int roll();
+    Faction* getSecondary();
 
 private:
     vector<vCoin*> oneP,threeP,fiveP,tenP;

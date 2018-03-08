@@ -73,6 +73,7 @@ void Player::conquers(string node,int i) {
     for(int j=0;j<i;j++){
         primaryTokens.erase(primaryTokens.begin());
     }
+    map->clearReinforcements(node);
     map->setReinforcements(node,temp);
     map->setPlayer(node,this->name);
 
@@ -162,8 +163,13 @@ void Player::decline(){
         }
         deck->giveBack(secondary);
     }
+    prepare();
+    box->returnTokens(primaryTokens);
+    primaryTokens.clear();
     secondary = primary;
     primary = nullptr;
 }
 
 int Player::roll() {return dice->roll();}
+
+Faction* Player::getSecondary() {return secondary;}

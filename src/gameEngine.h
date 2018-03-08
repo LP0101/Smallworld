@@ -37,6 +37,7 @@ private:
     vector<string> getControlled(string race);
     bool firstConquest;
     vector<Player *> lostZone;
+    bool decline(Player * p);
 
 
 };

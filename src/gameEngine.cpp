@@ -66,6 +66,9 @@ bool GameEngine::parse(string command, Player * p) {
     if(commands[0] == "show"){
         return show(commands,p);
     }
+    if(commands[0] == "decline"){
+        return decline(p);
+    }
     cout << "Invalid command" << endl;
     return true;
 
@@ -217,10 +220,39 @@ bool GameEngine::show(vector<string> commands, Player *p) {
         return true;
 
     }
+    else if(commands[1] == "player"){
+        string name = commands[2];
+        Player * target;
+        for(auto player : players){
+            if(player->getName() == name) {
+                target = player;
+                break;
+            }
+        }
+        if(target == nullptr){
+            cout << "Player not found" <<endl;
+            return true;
+        }
+        string primary="";
+        string secondary="";
+        if(target->getPrimary() != nullptr){
+            primary = target->getPrimary()->toString();
+        }
+        if(target->getSecondary() != nullptr){
+            secondary = target->getSecondary()->toString();
+        }
+        cout << name << ":\nPrimary: " << primary <<"\nSecondary: " << secondary << endl;
+        return true;
+    }
     else{
         cout << "Invalid command" << endl;
         return true;
     }
+}
+
+bool GameEngine::decline(Player * p) {
+    p->decline();
+    return false;
 }
 
 void GameEngine::prePhase(Player *p) {
