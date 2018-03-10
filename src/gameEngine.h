@@ -38,6 +38,8 @@ private:
     bool firstConquest;
     vector<Player *> lostZone;
     bool decline(Player * p);
+    bool didConquer;
+    bool reinforce(vector<string> commands, Player * p);
 
 
 };

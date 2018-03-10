@@ -9,6 +9,7 @@ GameEngine::GameEngine() {
     map = nullptr;
     box = nullptr;
     deck = nullptr;
+    didConquer = false;
 }
 
 void GameEngine::init() {
@@ -80,6 +81,9 @@ bool GameEngine::parse(string command, Player * p) {
     }
     if(commands[0] == "decline"){
         return decline(p);
+    }
+    if(commands[0] == "reinforce"){
+        return reinforce(commands,p);
     }
     cout << "Invalid command" << endl;
     return true;
@@ -180,6 +184,7 @@ bool GameEngine::conquer(vector<string> commands, Player *p) {
     p->conquers(commands[1],cost);
     cout << commands[1] << " belongs to " << p->getName() << " with " << map->getReinforcements(commands[1]) << " " << map->getFaction(commands[1]) << " tokens" << endl;
     firstConquest = false;
+    didConquer = true;
     cout << "You have " << p->getTokens() << " Tokens left" << endl;
     if(p->getTokens() == 0)
         isFinal = true;
@@ -263,8 +268,16 @@ bool GameEngine::show(vector<string> commands, Player *p) {
 }
 
 bool GameEngine::decline(Player * p) {
+    if(didConquer){
+        cout << "Cannot go into decline after conquering!" << endl;
+             return true;
+    }
     p->decline();
     return false;
+}
+
+bool GameEngine::reinforce(vector<string> commands, Player *p) {
+
 }
 
 void GameEngine::prePhase(Player *p) {
@@ -281,6 +294,7 @@ void GameEngine::mainPhase(Player *p) {
         p->picks_race(choice);
         firstConquest = true;
     }
+    didConquer = false;
     bool cont = true;
     while(cont) {
         string command;
@@ -292,6 +306,19 @@ void GameEngine::mainPhase(Player *p) {
 }
 
 void GameEngine::reinforcePhase(Player *p) {
+    if(p->getPrimary() == nullptr || p->getPrimary()->getDecline()){
+        cout << "In decline, can't reinforce" << endl;
+        return;
+    }
+    p->prepare();
+    bool cont = true;
+    while(cont){
+        string command;
+        cout << ">> ";
+        cin >> ws;
+        getline(cin,command);
+        cont = parse(command, p);
+    }
 
 }
 
