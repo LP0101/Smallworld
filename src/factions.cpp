@@ -62,6 +62,7 @@ Faction *Factions::take(int i, vector<vCoin*> cost) {
     values.erase(values.begin()+i);
     powers.erase(powers.begin()+i);
     races.erase(races.begin()+i);
+    values.push_back(new vector<vCoin *>);
     return request;
 }
 

@@ -240,6 +240,10 @@ void Map::Node::setReinforcements(vector<Token*> tokens) {
 //    }
     reinforcements = tokens;
 }
+void Map::Node::addReinforcements(vector<Token *> &tokens) {
+    for(auto token : tokens)
+        this->reinforcements.push_back(token);
+}
 int Map::Node::getReinforcements() {return reinforcements.size();}
 string Map::Node::getFaction() {return faction;}
 void Map::Node::addscoreMod(Modifier * power) {scoreMods.push_back(power);}
@@ -305,6 +309,7 @@ void Map::setModifiers(string node, vector<string> mods) {nodes[node]->setModifi
 void Map::setTerrain(string node, string type) {nodes[node]->setTerrain(type);}
 void Map::toggleEdge(string node) {nodes[node]->toggleEdge();}
 void Map::setReinforcements(string node, vector<Token*> &tokens) {nodes[node]->setReinforcements(tokens);}
+void Map::addReinforcements(string node, vector<Token *> &tokens) {nodes[node]->addReinforcements(tokens);}
 int Map::getReinforcements(string node) { return nodes[node]->getReinforcements();}
 
 string Map::getTerrain(string node){
@@ -341,3 +346,4 @@ vector<Token *> Map::clearReinforcements(string node) {return nodes[node]->clear
 vector<Token *> Map::prepareNode(string node) {return nodes[node]->prepareNode();}
 string Map::getPlayer(string node) {return nodes[node]->getPlayer();}
 void Map::setPlayer(string node, string p) {nodes[node]->setPlayer(p);}
+bool Map::isNode(string node) {return nodes.count(node);}

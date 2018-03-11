@@ -23,7 +23,7 @@ public:
     void picks_race(int i);
     void conquers(string node, int i);
     void loses(string node);
-    void scores();
+    int scores(int i);
     int getVp();
     void addVp(vector<vCoin*>);
     int getTokens();
@@ -39,6 +39,7 @@ public:
     void decline();
     int roll();
     Faction* getSecondary();
+    void reinforce(string node, int i);
 
 private:
     vector<vCoin*> oneP,threeP,fiveP,tenP;

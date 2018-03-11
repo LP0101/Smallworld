@@ -79,6 +79,19 @@ void Player::conquers(string node,int i) {
 
     nodes.push_back(node);
 }
+
+//adds player's tokens to a node
+void Player::reinforce(string node, int i) {
+    vector<Token *> temp;
+    for(int j = 0;j<i;j++){
+       temp.push_back(primaryTokens[j]);
+    }
+    for(int j = 0;j<i;j++){
+        primaryTokens.erase(primaryTokens.begin());
+    }
+    map->addReinforcements(node,temp);
+}
+
 //Invoked when a player loses a node. If the controlling race of the token is equal to the player's primary race, the tokens minus 1 are returned.
 void Player::loses(string node) {
     if(map->getFaction(node) == primary->getRace()->getName()) {
@@ -97,10 +110,51 @@ void Player::loses(string node) {
 }
 
 //Gives points based on the nodes controlled
-void Player::scores() {
+int Player::scores(int i) {
     int lands = nodes.size();
+    bool forest, human, merchant, hill, orc, pillaging, underworld, wizard, dwarf, swamp;
+    string power,race;
+    if(primary != nullptr) {
+        power = primary->getPower()->getName();
+        race = primary->getRace()->getName();
+    }else {
+        power = "";
+        race = "";
+    }
+    if(power == "Alchemist")
+        lands+=2;
+    for (auto node : nodes) {
+        string terrain = map->getTerrain(node);
+        vector<string> mods = map->getModifiers(node);
+        if (terrain == "Forest" && power == "Forest") {
+            lands += 1;
+        }
+        if (terrain == "Swamp" && power == "Swamp") {
+            lands += 1;
+        }
+        if (terrain == "Hill" && power == "Hill") {
+            lands += 1;
+        }
+        if (terrain == "Farmland" && race == "Humans") {
+            lands += 1;
+        }
+        if (power == "Merchant") {
+            lands += 1;
+        }
+        if (power == "Underworld" && std::find(mods.begin(), mods.end(), "Cave") != mods.end())
+            lands += 1;
+        if (race == "Wizards" && std::find(mods.begin(), mods.end(), "Magic") != mods.end())
+            lands += 1;
+        if (race == "Dwarves" && std::find(mods.begin(), mods.end(), "Mine") != mods.end())
+            lands+=1;
+        }
+        if (race=="Orcs")
+            lands += i;
+        if (power=="Pillaging")
+            lands += i;
     vector<vCoin*> points = box->giveCoins(lands);
     addVp(points);
+    return lands;
 }
 void Player::addVp(vector<vCoin*> points) {
     for(vCoin* coin : points){

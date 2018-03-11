@@ -26,6 +26,7 @@ private:
     void prePhase(Player * p);
     void mainPhase(Player * p);
     void reinforcePhase(Player * p);
+    void scorePhase(Player * p);
     void endPhase(Player * p);
    vector<Player*> players;
    Factions* deck;
@@ -40,6 +41,7 @@ private:
     bool decline(Player * p);
     bool didConquer;
     bool reinforce(vector<string> commands, Player * p);
+    int pillaged;
 
 
 };

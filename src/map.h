@@ -36,6 +36,7 @@ public:
     void toggleEdge(string node);
     string getTerrain(string node);
     void setReinforcements(string node, vector<Token*> &);
+    void addReinforcements(string node, vector<Token*> &tokens);
     int getReinforcements(string node);
     string getFaction(string node);
     void addscoreMod(string node, Modifier* power);
@@ -50,6 +51,7 @@ public:
     vector<Token *> prepareNode(string node);
     string getPlayer(string node);
     void setPlayer(string node, string p);
+    bool isNode(string node);
 
     //LINK METHODS
     bool addLink(string from, string to);
@@ -97,6 +99,7 @@ public:
     void toggleEdge();
     string getTerrain();
     void setReinforcements(vector<Token*> tokens);
+    void addReinforcements(vector<Token*> &tokens);
     int getReinforcements();
     void addModifier(string mod);
     void removeModifier(string mod);
