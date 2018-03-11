@@ -120,6 +120,10 @@ bool GameEngine::parse(string command, Player * p) {
     if (command == "exit"){
         exit(0);
     }
+    if(command == "help"){
+        help();
+        return true;
+    }
     vector<string> commands = split(command);
     if(commands[0] == "conquer"){
       return conquer(commands,p);
@@ -474,6 +478,14 @@ void GameEngine::endPhase(Player *p) {
    for(auto lost : lostZone){
        retreatPhase(lost);
    }
+}
+
+void GameEngine::help() {
+    cout << "The available commands are: " << endl << endl;
+    cout << "conquer <nodename>: conquers a node. Will roll if you don't have enough" << endl;
+    cout << "reinforce <nodename> <number>: reinforce a node with 'n' units" << endl;
+    cout << "decline: go into decline" << endl;
+    cout << "show <vp>/<tokens/<node>/<races>: show given information. Must specifiy a name after 'node'" <<endl;
 }
 
 vector<string> GameEngine::split(string s){
