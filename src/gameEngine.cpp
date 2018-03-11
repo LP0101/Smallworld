@@ -29,7 +29,7 @@ void GameEngine::init() {
 
     string mapFile;
     int playerCount;
-    int acceptedValues[] = {2,3,4,5,6};
+    int acceptedValues[] = {2,3,4,5};
 
     while(true) {
         cout << "How many players?" << endl;

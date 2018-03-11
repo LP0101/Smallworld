@@ -42,8 +42,10 @@ bool MapLoader::separate() {
             linkSection = true;
             continue;
         }
-        if(line == "END LINKS")
+        if(line == "END LINKS") {
+            linkSection = false;
             break;
+        }
         if(nodeSection){
             nodeBuilder << line << endl;
             continue;
