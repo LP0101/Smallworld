@@ -308,7 +308,7 @@ string Map::getFaction(string node) {return nodes[node]->getFaction();}
 void Map::setModifiers(string node, vector<string> mods) {nodes[node]->setModifiers(mods);}
 void Map::setTerrain(string node, string type) {nodes[node]->setTerrain(type);}
 void Map::toggleEdge(string node) {nodes[node]->toggleEdge();}
-void Map::setReinforcements(string node, vector<Token*> &tokens) {nodes[node]->setReinforcements(tokens);}
+void Map::setReinforcements(string node, vector<Token*> tokens) {nodes[node]->setReinforcements(tokens);}
 void Map::addReinforcements(string node, vector<Token *> &tokens) {nodes[node]->addReinforcements(tokens);}
 int Map::getReinforcements(string node) { return nodes[node]->getReinforcements();}
 

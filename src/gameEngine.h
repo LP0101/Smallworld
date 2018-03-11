@@ -36,6 +36,7 @@ private:
     vector<string> split(string);
     bool conquer(vector<string> commands, Player * p);
     bool show(vector<string> commands, Player * p);
+    bool abandon(vector<string> commands, Player * p);
     vector<string> getControlled(string race);
     bool firstConquest;
     vector<Player *> lostZone;
@@ -43,6 +44,7 @@ private:
     bool didConquer;
     bool reinforce(vector<string> commands, Player * p);
     int pillaged;
+    string currentPhase;
 
 
 };

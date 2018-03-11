@@ -35,7 +35,7 @@ public:
     vector<string> getModifiers(string node);
     void toggleEdge(string node);
     string getTerrain(string node);
-    void setReinforcements(string node, vector<Token*> &);
+    void setReinforcements(string node, vector<Token*> );
     void addReinforcements(string node, vector<Token*> &tokens);
     int getReinforcements(string node);
     string getFaction(string node);

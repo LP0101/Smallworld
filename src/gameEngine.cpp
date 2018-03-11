@@ -35,6 +35,13 @@ void GameEngine::init() {
         cout << "How many players?" << endl;
         cin >> ws;
         cin >> playerCount;
+        if(cin.fail()){
+            cin.clear(); // clears error flags
+            cin.ignore(999,'\n'); // the first parameter is just some arbitrarily large value, the second param being the character to ignore till
+            cout << "Please enter a valid number" << endl;
+            continue;
+        }
+
         mapFile = "Maps/" + to_string(playerCount) + "playersR2.map";
         cout << "Loading ../" + mapFile << endl;
         if(std::find(std::begin(acceptedValues), std::end(acceptedValues), playerCount) != std::end(acceptedValues))
@@ -44,7 +51,7 @@ void GameEngine::init() {
     }
     firstConquest = false;
     MAX_TURNS = 10;
-    turns = 0;
+    turns = 1;
     map = new Map();
     box = new Gamebox();
     deck = new Factions("Gameconfig/Races","Gameconfig/Powers",box);
@@ -54,6 +61,11 @@ void GameEngine::init() {
     if(x.second->getTerrain() == "Mountain"){
         x.second->addscoreMod(box->giveModifier("Mountain"));
     }
+    vector<string> mods = x.second->getModifiers();
+    if(std::find(mods.begin(), mods.end(), "LostTribes") != mods.end()){
+        map->setReinforcements(x.second->getName(),box->giveTokens("Lost Tribes",1));
+        map->setFaction(x.second->getName(),"Lost Tribes");
+    }
 }
 
     for(int i=0;i<playerCount;i++){
@@ -61,6 +73,11 @@ void GameEngine::init() {
         string playername;
         cin >> playername;
         players.push_back(new Player(playername,deck,map,box));
+    }
+    for(auto player : players){
+        for(int i=0;i<5;i++){
+            player->addVp(box->giveCoins(1));
+        }
     }
 }
 
@@ -113,12 +130,18 @@ bool GameEngine::parse(string command, Player * p) {
     }
     if(commands[0] == "skip")
         return false;
+    if(commands[0] == "abandon")
+        return abandon(commands, p);
     cout << "Invalid command" << endl;
     return true;
 
 }
 
 bool GameEngine::conquer(vector<string> commands, Player *p) {
+    if(currentPhase != "main"){
+        cout << "Cannot conquer right now" << endl;
+        return true;
+    }
     if(!map->isNode(commands[1])){
         cout << "Node not found!" <<endl;
         return true;
@@ -309,6 +332,10 @@ bool GameEngine::show(vector<string> commands, Player *p) {
 }
 
 bool GameEngine::decline(Player * p) {
+    if(currentPhase != "main"){
+        cout << "Cannot go into decline right now!" << endl;
+        return true;
+    }
     if(didConquer){
         cout << "Cannot go into decline after conquering!" << endl;
              return true;
@@ -318,8 +345,16 @@ bool GameEngine::decline(Player * p) {
 }
 
 bool GameEngine::reinforce(vector<string> commands, Player *p) {
+    if(!(currentPhase == "reinforce" || currentPhase == "retreat")){
+        cout << "Cannot reinforce right now!" << endl;
+        return true;
+    }
     if(!map->isNode(commands[1])){
         cout << "Node not found!"<<endl;
+        return true;
+    }
+    if(commands[2] == ""){
+        cout << "Please indicate how many units to reinforce with!" << endl;
         return true;
     }
     if(map->getFaction(commands[1]) != p->getPrimary()->getRace()->getName()){
@@ -339,12 +374,30 @@ bool GameEngine::reinforce(vector<string> commands, Player *p) {
 
 }
 
+bool GameEngine::abandon(vector<string> commands, Player *p) {
+    if(currentPhase != "reinforce"){
+        cout << "Cannot abandon right now!" << endl;
+        return true;
+    }
+    if(!map->isNode(commands[1])){
+        cout << "Node not found!" << endl;
+        return true;
+    }
+    if(map->getFaction(commands[1]) != p->getPrimary()->getRace()->getName()){
+        cout << "You can only abandon your primary race" << endl;
+        return true;
+    }
+    p->abandon(commands[1]);
+    return true;
+}
+
 void GameEngine::prePhase(Player *p) {
     for(auto player : players){
     }
 }
 
 void GameEngine::mainPhase(Player *p) {
+    currentPhase = "main";
     if(p->getPrimary() == nullptr || p->getPrimary()->getDecline()){
         int choice;
         cout << "Choose a faction" << endl;
@@ -367,6 +420,7 @@ void GameEngine::mainPhase(Player *p) {
 }
 
 void GameEngine::reinforcePhase(Player *p) {
+    currentPhase="reinforce";
     if(p->getPrimary() == nullptr || p->getPrimary()->getDecline()){
         cout << "In decline, can't reinforce" << endl;
         return;
@@ -385,6 +439,7 @@ void GameEngine::reinforcePhase(Player *p) {
 }
 
 void GameEngine::retreatPhase(Player *p) {
+    currentPhase="retreat";
     cout << p->getName() <<", you have " << p->getTokens() << " tokens to reinforce with" << endl;
     bool cont = true;
     while(cont){
@@ -402,7 +457,6 @@ void GameEngine::scorePhase(Player *p) {
 void GameEngine::endPhase(Player *p) {
    for(auto lost : lostZone){
        retreatPhase(lost);
-       cout << "TEST" << endl;
    }
 }
 

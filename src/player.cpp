@@ -16,10 +16,10 @@ Player::Player(string n, Factions *f, Map *m, Gamebox *g){
     summarySheet = "Rules and stuff";
 
     //TEST FUNCTION IGNORE
-    for(int i=0; i<20;i++){
-        oneP.push_back(new vCoin(1));
-    }
-    powerMods.push_back(new Modifier("Dragon",2));
+//    for(int i=0; i<20;i++){
+//        oneP.push_back(new vCoin(1));
+//    }
+//    powerMods.push_back(new Modifier("Dragon",2));
 }
 //picks a race, paying the appropriate price for it. Also increases the player's victory points by the race's value
 //Moves the player's primary race to secondary, and gives the secondary race back to the deck.
@@ -150,6 +150,9 @@ int Player::scores(int i) {
             lands += 1;
         if (race == "Dwarves" && std::find(mods.begin(), mods.end(), "Mine") != mods.end())
             lands+=1;
+        else if(secondary->getRace()->getName() == "Dwarves" && std::find(mods.begin(), mods.end(), "Mine") != mods.end()){
+            lands+=1;
+        }
         }
         if (race=="Orcs")
             lands += i;
@@ -189,6 +192,12 @@ int Player::getTokens() {return primaryTokens.size();}
 
 void Player::addMod(string node) {map->addscoreMod(node,powerMods[0]); powerMods.erase(powerMods.begin());}
 void Player::removeMod(string node) {powerMods.push_back(map->removescoreMod(node));}
+
+void Player::abandon(string node) {
+    vector<Token *> temp= map->clearReinforcements(node);
+    for(auto tok : temp)
+        primaryTokens.push_back(tok);
+}
 
 Faction * Player::getPrimary() {return primary;}
 

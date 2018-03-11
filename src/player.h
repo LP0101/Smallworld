@@ -40,6 +40,7 @@ public:
     int roll();
     Faction* getSecondary();
     void reinforce(string node, int i);
+    void abandon(string node);
 
 private:
     vector<vCoin*> oneP,threeP,fiveP,tenP;
