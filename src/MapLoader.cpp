@@ -54,7 +54,7 @@ bool MapLoader::separate() {
         }
     }
     if (nodeBuilder.str().empty() || linkBuilder.str().empty() || (nodeSection && linkSection)){
-        throw new exception;
+        throw "Map error!";
     }
 }
 

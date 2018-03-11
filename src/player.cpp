@@ -101,9 +101,12 @@ void Player::loses(string node) {
         vector<Token *> lost = vector<Token *>(1);
         lost[0] = tokens[tokens.size()-1];
         box->returnTokens(lost);
+        cout << tokens.size() << " tokens returned" << endl;
     }
-    if(map->getFaction(node) == primary->getRace()->getName())
-        box->returnTokens(map->clearReinforcements(node));
+    if(secondary!=nullptr) {
+        if (map->getFaction(node) == secondary->getRace()->getName())
+            box->returnTokens(map->clearReinforcements(node));
+    }
     map->setFaction(node,"");
     map->setPlayer(node,"");
     nodes.erase( std::remove(nodes.begin(), nodes.end(), std::string(node)), nodes.end() );

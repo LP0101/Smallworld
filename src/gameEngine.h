@@ -28,6 +28,7 @@ private:
     void reinforcePhase(Player * p);
     void scorePhase(Player * p);
     void endPhase(Player * p);
+    void retreatPhase(Player * p);
    vector<Player*> players;
    Factions* deck;
    Gamebox* box;

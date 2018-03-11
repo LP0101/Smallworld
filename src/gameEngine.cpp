@@ -26,11 +26,22 @@ void GameEngine::init() {
             "                                                                    "<< endl << endl;
 
 
-    cout << "How many players?" << endl;
+
+    string mapFile;
     int playerCount;
-    cin >> playerCount;
-    string mapFile = "Maps/" + to_string(playerCount) + "playersR2.map";
-    cout << "Loading ../" + mapFile << endl;
+    int acceptedValues[] = {2,3,4,5,6};
+
+    while(true) {
+        cout << "How many players?" << endl;
+        cin >> ws;
+        cin >> playerCount;
+        mapFile = "Maps/" + to_string(playerCount) + "playersR2.map";
+        cout << "Loading ../" + mapFile << endl;
+        if(std::find(std::begin(acceptedValues), std::end(acceptedValues), playerCount) != std::end(acceptedValues))
+            break;
+        else
+            cout << "Map error, try again" << endl;
+    }
     firstConquest = false;
     MAX_TURNS = 10;
     turns = 0;
@@ -65,10 +76,21 @@ void GameEngine::gameLoop() {
             mainPhase(currentPlayer);
             reinforcePhase(currentPlayer);
             scorePhase(currentPlayer);
+            endPhase(currentPlayer);
             firstConquest = false; //MOVE THIS
             lostZone.clear();      //MOVE THIS
         }
+        turns++;
     }
+    int maxscore = 0;
+    string winner;
+    for(auto player : players){
+        if(player->getVp() > maxscore){
+            maxscore = player->getVp();
+            winner = player->getName();
+        }
+    }
+    cout << "The winner is " << winner << " with " << maxscore << " points!";
 
 }
 
@@ -89,6 +111,8 @@ bool GameEngine::parse(string command, Player * p) {
     if(commands[0] == "reinforce"){
         return reinforce(commands,p);
     }
+    if(commands[0] == "skip")
+        return false;
     cout << "Invalid command" << endl;
     return true;
 
@@ -186,8 +210,9 @@ bool GameEngine::conquer(vector<string> commands, Player *p) {
     if(map->getPlayer(commands[1]) != ""){
         for(auto player : players){
             if(player->getName() == map->getPlayer(commands[1])){
+                if(player->getPrimary()->getRace()->getName() == map->getFaction(commands[1]))
+                    lostZone.push_back(player);
                 player->loses(commands[1]);
-                lostZone.push_back(player);
             }
         }
     }
@@ -219,6 +244,10 @@ bool GameEngine::show(vector<string> commands, Player *p) {
         return true;
     }
     else if(commands[1] == "node"){
+        if(!map->isNode(commands[2])){
+            cout << "Node not found!" << endl;
+            return true;
+        }
         string node = commands[2];
         string terrain = map->getTerrain(node);
         string modifiers;
@@ -289,10 +318,15 @@ bool GameEngine::decline(Player * p) {
 }
 
 bool GameEngine::reinforce(vector<string> commands, Player *p) {
+    if(!map->isNode(commands[1])){
+        cout << "Node not found!"<<endl;
+        return true;
+    }
     if(map->getFaction(commands[1]) != p->getPrimary()->getRace()->getName()){
         cout << "You can only reinforce your primary faction's nodes!" << endl;
         return true;
     }
+
     if(p->getTokens() < stoi(commands[2])){
         cout << "Not enough tokens to do this" << endl;
         return true;
@@ -319,6 +353,7 @@ void GameEngine::mainPhase(Player *p) {
         p->picks_race(choice);
         firstConquest = true;
     }
+    p->prepare();
     didConquer = false;
     bool cont = true;
     while(cont) {
@@ -336,8 +371,8 @@ void GameEngine::reinforcePhase(Player *p) {
         cout << "In decline, can't reinforce" << endl;
         return;
     }
-    cout << "You have " << p->getTokens() << " tokens to reinforce with" << endl;
     p->prepare();
+    cout << "You have " << p->getTokens() << " tokens to reinforce with" << endl;
     bool cont = true;
     while(cont){
         string command;
@@ -349,8 +384,26 @@ void GameEngine::reinforcePhase(Player *p) {
 
 }
 
+void GameEngine::retreatPhase(Player *p) {
+    cout << p->getName() <<", you have " << p->getTokens() << " tokens to reinforce with" << endl;
+    bool cont = true;
+    while(cont){
+        string command;
+        cout << ">> ";
+        cin >> ws;
+        getline(cin,command);
+        cont = parse(command, p);
+    }
+}
+
 void GameEngine::scorePhase(Player *p) {
     cout << p->getName() <<" just scored " << p->scores(pillaged) << " points!" << endl;
+}
+void GameEngine::endPhase(Player *p) {
+   for(auto lost : lostZone){
+       retreatPhase(lost);
+       cout << "TEST" << endl;
+   }
 }
 
 vector<string> GameEngine::split(string s){
