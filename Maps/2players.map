@@ -1,0 +1,47 @@
+BEGIN NODES
+W1|Water|E|[]
+Fa1|Farmland|E|[Magic]
+Fo1|Forest|E|[Mine]
+S1|Swamp|E|[Cave,LostTribe]
+H1|Hill|E|[]
+M1|Mountain|E|[Cave,Mine]
+H2|Hill|N|[LostTribe]
+W2|Water|N|[]
+M2|Mountain|N|[]
+Fa2|Farmland|N|[]
+Fo2|Forest|E|[Magic,LostTribe]
+Fa3|Farmland|E|[LostTribe]
+Fo3|Forest|N|[LostTribe]
+Fa4|Farmland|N|[LostTribe,Magic]
+H3|Hill|N|[LostTribe]
+M3|Mountain|E|[Mine]
+S2|Swamp|E|[Magic,LostTribe]
+H4|Hill|E|[Cave]
+S3|Swamp|E|[Mine,LostTribe]
+M4|Mountain|E|[]
+S4|Swamp|E|[]
+Fo4|Forest|E|[]
+W3|Water|E|[]
+END NODES
+
+BEGIN LINKS
+W1:M1,Fa1
+Fa1:Fo1,H2,M1
+S1:H1,Fa2,M2
+H1:Fo2,Fa2
+M1:H2,Fa3
+H2:W2,Fo3,Fa3
+W2:M2,Fa4,Fo3
+M2:Fa2,H3,Fa4
+Fa2:Fo2,H3
+Fo2:M3,H3
+Fa3:Fo3,H4,S2
+Fo3:Fa4,S3,H4
+Fa4:H3,S4,M4,S3
+H3:M3,Fo4,S4
+M3:Fo4
+S2:H4
+H4:S3
+S3:M4
+S4:Fo4
+Fo4:W3

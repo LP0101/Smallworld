@@ -42,7 +42,7 @@ void GameEngine::init() {
             continue;
         }
 
-        mapFile = "Maps/" + to_string(playerCount) + "playersR2.map";
+        mapFile = "Maps/" + to_string(playerCount) + "players.map";
         cout << "Loading ../" + mapFile << endl;
         if(std::find(std::begin(acceptedValues), std::end(acceptedValues), playerCount) != std::end(acceptedValues))
             break;
