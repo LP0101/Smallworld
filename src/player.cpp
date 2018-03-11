@@ -150,8 +150,10 @@ int Player::scores(int i) {
             lands += 1;
         if (race == "Dwarves" && std::find(mods.begin(), mods.end(), "Mine") != mods.end())
             lands+=1;
-        else if(secondary->getRace()->getName() == "Dwarves" && std::find(mods.begin(), mods.end(), "Mine") != mods.end()){
-            lands+=1;
+        else if(secondary != nullptr){
+           if(secondary->getRace()->getName() == "Dwarves" && std::find(mods.begin(), mods.end(), "Mine") != mods.end()) {
+              lands += 1;
+            }
         }
         }
         if (race=="Orcs")

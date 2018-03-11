@@ -50,7 +50,12 @@ void GameEngine::init() {
             cout << "Map error, try again" << endl;
     }
     firstConquest = false;
-    MAX_TURNS = 10;
+    if(playerCount==2 || playerCount==3)
+        MAX_TURNS=10;
+    if(playerCount==4)
+        MAX_TURNS=9;
+    if(playerCount==5)
+        MAX_TURNS=8;
     turns = 1;
     map = new Map();
     box = new Gamebox();
@@ -84,7 +89,7 @@ void GameEngine::init() {
 
 
 void GameEngine::gameLoop() {
-    while(turns < MAX_TURNS){
+    while(turns < MAX_TURNS+1){
         cout << "It is turn " << turns << " out of " << MAX_TURNS << endl;
         for(auto currentPlayer : players){
             cout << "Current player is: " << currentPlayer->getName() << endl;
@@ -398,11 +403,22 @@ void GameEngine::prePhase(Player *p) {
 
 void GameEngine::mainPhase(Player *p) {
     currentPhase = "main";
-    if(p->getPrimary() == nullptr || p->getPrimary()->getDecline()){
+    while(p->getPrimary() == nullptr || p->getPrimary()->getDecline()){
         int choice;
         cout << "Choose a faction" << endl;
         parse("show races", nullptr);
+        cin >> ws;
         cin >> choice;
+        if(cin.fail()){
+            cin.clear(); // clears error flags
+            cin.ignore(999,'\n'); // the first parameter is just some arbitrarily large value, the second param being the character to ignore till
+            cout << "Please enter a valid number" << endl;
+            continue;
+        }
+        if(choice < 0 || choice > 5){
+            cout << "Please enter a valid number" << endl;
+            continue;
+        }
         p->picks_race(choice);
         firstConquest = true;
     }

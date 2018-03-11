@@ -27,6 +27,7 @@ Gamebox::Gamebox() {
     for(int i=0;i<10;i++){ tokens.push_back(new Token("Wizards"));}
     for(int i=0;i<10;i++){ tokens.push_back(new Token("Lost Tribes"));}
 
+
     for(int i=0;i<9;i++){ modifiers.push_back(new Modifier("Mountain", 1));}
     for(int i=0;i<10;i++){ modifiers.push_back(new Modifier("Troll Lair", 1));}
     for(int i=0;i<6;i++){ modifiers.push_back(new Modifier("Fortress", 1));}
