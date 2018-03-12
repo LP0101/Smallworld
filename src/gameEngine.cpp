@@ -31,7 +31,7 @@ void GameEngine::init() {
     int playerCount;
     int acceptedValues[] = {2,3,4,5};
 
-    while(true) {
+    while(true) { //will only proceded when input is correct
         cout << "How many players?" << endl;
         cin >> ws;
         cin >> playerCount;
@@ -43,13 +43,14 @@ void GameEngine::init() {
         }
 
         mapFile = "Maps/" + to_string(playerCount) + "players.map";
-        cout << "Loading ../" + mapFile << endl;
+        cout << "Loading ../" + mapFile << endl << endl;
         if(std::find(std::begin(acceptedValues), std::end(acceptedValues), playerCount) != std::end(acceptedValues))
             break;
         else
             cout << "Map error, try again" << endl;
     }
     firstConquest = false;
+    //sets max number of turns
     if(playerCount==2 || playerCount==3)
         MAX_TURNS=10;
     if(playerCount==4)
@@ -242,8 +243,10 @@ bool GameEngine::conquer(vector<string> commands, Player *p) {
     if(map->getPlayer(commands[1]) != ""){
         for(auto player : players){
             if(player->getName() == map->getPlayer(commands[1])){
-                if(player->getPrimary()->getRace()->getName() == map->getFaction(commands[1]))
+                if(player->getPrimary()->getRace()->getName() == map->getFaction(commands[1])) {
+                    if(std::find(lostZone.begin(),lostZone.end(), player) == lostZone.end())
                     lostZone.push_back(player);
+                }
                 player->loses(commands[1]);
             }
         }
@@ -462,6 +465,10 @@ void GameEngine::retreatPhase(Player *p) {
     currentPhase="retreat";
     cout << p->getName() <<", you have " << p->getTokens() << " tokens to reinforce with" << endl;
     bool cont = true;
+    if(p->getTokens() == 0){
+        cout << "skipping retreat phase" << endl;
+        cont = false;
+    }
     while(cont){
         string command;
         cout << ">> ";

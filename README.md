@@ -8,7 +8,9 @@ Building using cmake requires version 3.9 or later.
 
 If compiling manually, build all .cpp files in the src folder.
 
-Building this project was tested using gcc version 7.20 on Linux and the Apple LLVM compiler version 9.00 on MacOS 10.13
+Building this project was tested using the Apple LLVM compiler version 9.00 on MacOS 10.13.
+
+Building on other systems is possible, but requires additional dependencies. Linux compatibility should return in a future version.
 
 ## How it works
 
@@ -49,3 +51,15 @@ When initialized, both vectors are randomly shuffled, and the top 6 combinations
 Each of the 6 positions has a corresponding VP value, based on previous actions. When one of these factions is taken, a corresponding amount of VP is taken from the player and added to the pool, then given based on the faction's pool. The other values are then adjusted accordingly
 
 When a combination is taken, it creates a faction object before removing it from the "deck."
+
+### The GameBox
+
+The box object, when created, also created all the token objects, victory points, and modifier objects, while providing methods that return pointers to these objects, and ways to "take" and "return" them.
+
+## The Game Engine
+
+The game engine operates through phases. After the initialization is done (player and map selection), it loops through each phase of the game. Each phase represents what the player is allowed to do, and triggers certain automated actions.
+
+Input is handled by the "parse" method, which splits a string into a vector of strings, delimited by spaces. The first word in this vector determined what function is called.
+
+Some functions are limited to certain phases, determined by the "currentPhase" attribute.

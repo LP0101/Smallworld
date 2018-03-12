@@ -101,7 +101,7 @@ void Player::loses(string node) {
         vector<Token *> lost = vector<Token *>(1);
         lost[0] = tokens[tokens.size()-1];
         box->returnTokens(lost);
-        cout << tokens.size() << " tokens returned" << endl;
+        cout << tokens.size()-1 << " tokens returned" << endl;
     }
     if(secondary!=nullptr) {
         if (map->getFaction(node) == secondary->getRace()->getName())
@@ -197,6 +197,9 @@ void Player::removeMod(string node) {powerMods.push_back(map->removescoreMod(nod
 
 void Player::abandon(string node) {
     vector<Token *> temp= map->clearReinforcements(node);
+    nodes.erase(std::remove(nodes.begin(),nodes.end(), std::string(node)), nodes.end());
+    map->setPlayer(node,"");
+    map->setFaction(node,"");
     for(auto tok : temp)
         primaryTokens.push_back(tok);
 }
