@@ -11,6 +11,9 @@
 #include "gamebox.h"
 #include "player.h"
 #include <sstream>
+#include "PhaseSubject.h"
+#include "PhaseObserver.h"
+#include <string>
 
 
 class GameEngine {
@@ -45,7 +48,10 @@ private:
     bool didConquer;
     bool reinforce(vector<string> commands, Player * p);
     int pillaged;
+    int conquered;
     string currentPhase;
+    PhaseObserver* phaseObserver;
+    PhaseSubject* phaseSubject;
 
 
 };

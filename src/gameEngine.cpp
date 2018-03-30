@@ -11,6 +11,9 @@ GameEngine::GameEngine() {
     deck = nullptr;
     didConquer = false;
     pillaged = 0;
+    conquered = 0;
+    phaseSubject = new PhaseSubject();
+    phaseObserver = new PhaseObserver(phaseSubject);
 }
 
 void GameEngine::init() {
@@ -87,13 +90,12 @@ void GameEngine::init() {
     }
 }
 
-
-
 void GameEngine::gameLoop() {
     while(turns < MAX_TURNS+1){
         cout << "It is turn " << turns << " out of " << MAX_TURNS << endl;
         for(auto currentPlayer : players){
             cout << "Current player is: " << currentPlayer->getName() << endl;
+            phaseSubject->setPlayer(currentPlayer->getName());
             prePhase(currentPlayer);
             pillaged=0;
             mainPhase(currentPlayer);
@@ -147,6 +149,7 @@ bool GameEngine::parse(string command, Player * p) {
 
 }
 
+//Uses PhaseObserver
 bool GameEngine::conquer(vector<string> commands, Player *p) {
     if(currentPhase != "main"){
         cout << "Cannot conquer right now" << endl;
@@ -254,15 +257,19 @@ bool GameEngine::conquer(vector<string> commands, Player *p) {
     if(isFinal)
         cost = p->getTokens();
     p->conquers(commands[1],cost);
-    cout << commands[1] << " belongs to " << p->getName() << " with " << map->getReinforcements(commands[1]) << " " << map->getFaction(commands[1]) << " tokens" << endl;
+    phaseSubject->setAction("conquers "+commands[1]+" with " + to_string(map->getReinforcements(commands[1])) + " " + map->getFaction(commands[1]) + " tokens");
+//    cout << commands[1] << " belongs to " << p->getName() << " with " << map->getReinforcements(commands[1]) << " " << map->getFaction(commands[1]) << " tokens" << endl;
+    phaseSubject->Notify();
     firstConquest = false;
     didConquer = true;
     cout << "You have " << p->getTokens() << " Tokens left" << endl;
+    conquered++;
     if(p->getTokens() == 0)
         isFinal = true;
     return !isFinal;
 }
 
+//Uses StateObserver
 bool GameEngine::show(vector<string> commands, Player *p) {
     if (commands[1] == "races"){
         for(auto faction : deck->topDecks()){
@@ -343,6 +350,7 @@ bool GameEngine::show(vector<string> commands, Player *p) {
     }
 }
 
+//Uses PhaseObserver
 bool GameEngine::decline(Player * p) {
     if(currentPhase != "main"){
         cout << "Cannot go into decline right now!" << endl;
@@ -353,9 +361,12 @@ bool GameEngine::decline(Player * p) {
              return true;
     }
     p->decline();
+    phaseSubject->setAction("goes into decline");
+    phaseSubject->Notify();
     return false;
 }
 
+//Uses PhaseObserver
 bool GameEngine::reinforce(vector<string> commands, Player *p) {
     if(!(currentPhase == "reinforce" || currentPhase == "retreat")){
         cout << "Cannot reinforce right now!" << endl;
@@ -380,12 +391,15 @@ bool GameEngine::reinforce(vector<string> commands, Player *p) {
     }
     p->reinforce(commands[1],stoi(commands[2]));
 
-    cout << "You reinforced " << commands[1] << " with " << commands[2] << " tokens" << endl;
+//    cout << "You reinforced " << commands[1] << " with " << commands[2] << " tokens" << endl;
+    phaseSubject->setAction("has reinforced " + commands[1] + " with " + commands[2] + " tokens");
+    phaseSubject->Notify();
     cout << "You have " << p->getTokens() << " tokens remaining"<<endl;
     return(p->getTokens() != 0); //returns true if no more tokens
 
 }
 
+//Uses PhaseObserver
 bool GameEngine::abandon(vector<string> commands, Player *p) {
     if(currentPhase != "reinforce"){
         cout << "Cannot abandon right now!" << endl;
@@ -400,6 +414,8 @@ bool GameEngine::abandon(vector<string> commands, Player *p) {
         return true;
     }
     p->abandon(commands[1]);
+    phaseSubject->setAction("abandonned " + commands[1]);
+    phaseSubject->Notify();
     return true;
 }
 
@@ -410,6 +426,7 @@ void GameEngine::prePhase(Player *p) {
 
 void GameEngine::mainPhase(Player *p) {
     currentPhase = "main";
+    conquered = 0;
     while(p->getPrimary() == nullptr || p->getPrimary()->getDecline()){
         int choice;
         cout << "Choose a faction" << endl;
@@ -429,6 +446,7 @@ void GameEngine::mainPhase(Player *p) {
         p->picks_race(choice);
         firstConquest = true;
     }
+    cout << "========== Conquer Phase ==========" << endl << endl;
     p->prepare();
     didConquer = false;
     bool cont = true;
@@ -439,7 +457,9 @@ void GameEngine::mainPhase(Player *p) {
         getline(cin,command);
         cont = parse(command, p);
     }
-    cout << "Entering reinforce phase" << endl;
+    phaseSubject->setAction("has conquered " + to_string(conquered) +  " zones in his turn!");
+    phaseSubject->Notify();
+//    cout << "Entering reinforce phase" << endl;
 }
 
 void GameEngine::reinforcePhase(Player *p) {
@@ -463,6 +483,7 @@ void GameEngine::reinforcePhase(Player *p) {
 
 void GameEngine::retreatPhase(Player *p) {
     currentPhase="retreat";
+    cout << "========== " << "Reinforce Phase" << "==========";
     cout << p->getName() <<", you have " << p->getTokens() << " tokens to reinforce with" << endl;
     bool cont = true;
     if(p->getTokens() == 0){
@@ -479,6 +500,7 @@ void GameEngine::retreatPhase(Player *p) {
 }
 
 void GameEngine::scorePhase(Player *p) {
+    currentPhase="score";
     cout << p->getName() <<" just scored " << p->scores(pillaged) << " points!" << endl;
 }
 void GameEngine::endPhase(Player *p) {
