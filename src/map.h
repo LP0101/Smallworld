@@ -52,6 +52,7 @@ public:
     string getPlayer(string node);
     void setPlayer(string node, string p);
     bool isNode(string node);
+    std::map<std::string,int> zonesControlled();
 
     //LINK METHODS
     bool addLink(string from, string to);

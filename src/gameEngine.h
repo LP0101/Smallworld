@@ -13,6 +13,8 @@
 #include <sstream>
 #include "PhaseSubject.h"
 #include "PhaseObserver.h"
+#include "statssubject.h"
+#include "statsobserver.h"
 #include <string>
 
 
@@ -52,6 +54,9 @@ private:
     string currentPhase;
     PhaseObserver* phaseObserver;
     PhaseSubject* phaseSubject;
+    StatsObserver* statsObserver;
+    StatsSubject* statsSubject;
+
 
 
 };

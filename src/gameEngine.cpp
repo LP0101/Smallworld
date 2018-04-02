@@ -88,6 +88,8 @@ void GameEngine::init() {
             player->addVp(box->giveCoins(1));
         }
     }
+    statsSubject = new StatsSubject(map);
+    statsObserver = new StatsObserver(statsSubject);
 }
 
 void GameEngine::gameLoop() {
@@ -104,7 +106,9 @@ void GameEngine::gameLoop() {
             endPhase(currentPlayer);
             firstConquest = false; //MOVE THIS
             lostZone.clear();      //MOVE THIS
+            statsSubject->Notify();
         }
+
         turns++;
     }
     int maxscore = 0;

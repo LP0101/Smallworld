@@ -347,3 +347,16 @@ vector<Token *> Map::prepareNode(string node) {return nodes[node]->prepareNode()
 string Map::getPlayer(string node) {return nodes[node]->getPlayer();}
 void Map::setPlayer(string node, string p) {nodes[node]->setPlayer(p);}
 bool Map::isNode(string node) {return nodes.count(node);}
+std::map<string,int> Map::zonesControlled(){
+    std::map<string,int> zones;
+    for (auto const &x : nodes) {
+//        if(x.second->getPlayer() != "") {
+//            if (zones.find(x.second->getPlayer()) == zones.end()) {
+//                zones[x.second->getPlayer()] = 1;
+//            } else {
+                zones[x.second->getPlayer()]++;
+//            }
+        }
+//    }
+    return zones;
+};
