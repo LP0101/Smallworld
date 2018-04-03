@@ -4,8 +4,13 @@
 
 #include "statssubject.h"
 
-StatsSubject::StatsSubject(Map *map) {this->map = map; this->turnNumber=0;}
+StatsSubject::StatsSubject(Map *map) {this->map = map;}
 
 std::map<std::string,int> StatsSubject::getNodes() {return map->zonesControlled();}
-int StatsSubject::getTurn() {return this->turnNumber;}
-void StatsSubject::setTurn(int turnNumber) {this->turnNumber = turnNumber;}
+
+int StatsSubject::getTurn() {return turn;}
+
+void StatsSubject::setTurn(int turnNumber) {turn = turnNumber;}
+
+vector<Player*> StatsSubject::getPlayers() {return _players;}
+void StatsSubject::setPlayers(vector<Player *> players) {_players=players;}

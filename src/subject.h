@@ -2,6 +2,7 @@
 #pragma once
 #include "Observer.h"
 #include <list>
+#include <iostream>
 using namespace std;
 class Subject {
 public:

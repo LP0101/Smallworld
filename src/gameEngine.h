@@ -15,6 +15,11 @@
 #include "PhaseObserver.h"
 #include "statssubject.h"
 #include "statsobserver.h"
+#include "undecoratedObserver.h"
+#include "ConquestDecorator.h"
+#include "HandDecorator.h"
+#include "CoinsDecorator.h"
+#include <typeinfo>
 #include <string>
 
 

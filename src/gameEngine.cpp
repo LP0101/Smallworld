@@ -12,6 +12,7 @@ GameEngine::GameEngine() {
     didConquer = false;
     pillaged = 0;
     conquered = 0;
+    turns = 1;
     phaseSubject = new PhaseSubject();
     phaseObserver = new PhaseObserver(phaseSubject);
 }
@@ -89,12 +90,27 @@ void GameEngine::init() {
         }
     }
     statsSubject = new StatsSubject(map);
-    statsObserver = new StatsObserver(statsSubject);
+    statsSubject->setPlayers(players);
+    statsObserver = new undecoratedObserver(statsSubject);
+    statsSubject->Detach(statsObserver);
+//    statsObserver = new BaseObserverDecorator(statsObserver);
+//    statsSubject->Attach(statsObserver);
+    statsObserver = new ConquestDecorator(statsObserver,statsSubject);
+    statsSubject->Attach(statsObserver);
+    statsSubject->Detach(statsObserver);
+    statsObserver=new HandDecorator(statsObserver,statsSubject);
+    statsSubject->Attach(statsObserver);
+    statsSubject->Detach(statsObserver);
+    statsObserver = new CoinsDecorator(statsObserver, statsSubject);
+    statsSubject->Attach(statsObserver);
+    cout << endl;
+    cout << typeid(statsObserver).name() << endl;
 }
 
 void GameEngine::gameLoop() {
     while(turns < MAX_TURNS+1){
         cout << "It is turn " << turns << " out of " << MAX_TURNS << endl;
+        statsSubject->setTurn(turns);
         for(auto currentPlayer : players){
             cout << "Current player is: " << currentPlayer->getName() << endl;
             phaseSubject->setPlayer(currentPlayer->getName());

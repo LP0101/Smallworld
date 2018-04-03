@@ -13,14 +13,18 @@
 using namespace std;
 
 class StatsObserver : public Observer{
-private:
+public:
     StatsSubject * _subject;
 
 public:
     StatsObserver();
-    StatsObserver(StatsSubject* s);
-    void Update();
-    string barGraph();
+    explicit StatsObserver(StatsSubject* s);
+    virtual void Update()=0;
+    virtual string getType()=0;
+//    string barGraph();
+    int getTurns();
+    void detachSelf();
+    StatsSubject *getSubject();
 
 };
 
