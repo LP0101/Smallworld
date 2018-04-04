@@ -551,7 +551,7 @@ void GameEngine::reinforcePhase(Player *p) {
 
 void GameEngine::retreatPhase(Player *p) {
     currentPhase="retreat";
-    cout << "========== " << "Reinforce Phase" << "==========";
+    cout << "========== " << "Retreat Phase" << "==========" << endl;
     cout << p->getName() <<", you have " << p->getTokens() << " tokens to reinforce with" << endl;
     bool cont = true;
     if(p->getTokens() == 0){
@@ -708,8 +708,8 @@ bool GameEngine::removeDecorators(){
 
     }
     string input;
-    cout << "Would you like to be shown this prompt again?" << endl;
     while(true) {
+        cout << "Would you like to be shown this prompt again?" << endl;
         cin >> ws;
         cin >> input;
         if(input == "y")
