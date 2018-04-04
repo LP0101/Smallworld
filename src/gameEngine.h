@@ -39,6 +39,8 @@ private:
     void scorePhase(Player * p);
     void endPhase(Player * p);
     void retreatPhase(Player * p);
+    bool showDecoratorOptions;
+    bool decorators[3];
    vector<Player*> players;
    Factions* deck;
    Gamebox* box;
@@ -47,6 +49,8 @@ private:
     bool conquer(vector<string> commands, Player * p);
     bool show(vector<string> commands, Player * p);
     bool abandon(vector<string> commands, Player * p);
+    bool setDecorators();
+    bool removeDecorators();
     void help();
     vector<string> getControlled(string race);
     bool firstConquest;
@@ -61,6 +65,7 @@ private:
     PhaseSubject* phaseSubject;
     StatsObserver* statsObserver;
     StatsSubject* statsSubject;
+    bool removeDecorator(string decorator);
 
 
 

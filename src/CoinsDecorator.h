@@ -11,6 +11,9 @@ public:
     CoinsDecorator(StatsObserver *s, StatsSubject* su);
     void Update();
     string getType();
+    StatsObserver *getUnder();
+    void setUnder(StatsObserver* under);
+
 protected:
     StatsObserver *_undecorated;
 };

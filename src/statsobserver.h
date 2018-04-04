@@ -20,6 +20,8 @@ public:
     StatsObserver();
     explicit StatsObserver(StatsSubject* s);
     virtual void Update()=0;
+    virtual StatsObserver* getUnder()=0;
+    virtual void setUnder(StatsObserver* under)=0;
     virtual string getType()=0;
 //    string barGraph();
     int getTurns();

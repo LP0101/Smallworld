@@ -17,4 +17,6 @@ void CoinsDecorator::Update(){
     }
 
 }
-string getType(){return "coins";}
+string CoinsDecorator::getType(){return "coins";}
+StatsObserver *CoinsDecorator::getUnder() {return _undecorated;}
+void CoinsDecorator::setUnder(StatsObserver *under) {StatsDecorator::_decoratedObserver = under;_undecorated=under;}

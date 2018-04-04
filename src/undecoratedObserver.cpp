@@ -11,3 +11,5 @@ void undecoratedObserver::Update() {
 //    cout << "This is at: " << this << endl;
 }
 string undecoratedObserver::getType() {return "undecorated";}
+StatsObserver* undecoratedObserver::getUnder() {return nullptr;}
+void undecoratedObserver::setUnder(StatsObserver *under) {}

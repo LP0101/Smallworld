@@ -13,6 +13,8 @@ public:
     void Update();
     string barGraph();
     string getType();
+    StatsObserver* getUnder();
+    void setUnder(StatsObserver* under);
 protected:
     StatsObserver * _undecorated;
 

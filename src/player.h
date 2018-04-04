@@ -5,6 +5,8 @@
 #ifndef PROJECT_PLAYER_H
 #define PROJECT_PLAYER_H
 
+class Strategy;
+class RandomStrategy;
 #include <iostream>
 #include "faction.h"
 #include "map.h"
@@ -13,6 +15,7 @@
 #include "piece.h"
 #include "rDice.h"
 #include "gamebox.h"
+#include "Strategy.h"
 
 using namespace std;
 
@@ -41,6 +44,9 @@ public:
     Faction* getSecondary();
     void reinforce(string node, int i);
     void abandon(string node);
+    Map *getMap();
+    void Strategize(int reinforce);
+    void setStrategy(Strategy* strategy);
 
 private:
     vector<vCoin*> oneP,threeP,fiveP,tenP;
@@ -53,6 +59,7 @@ private:
     Gamebox *box;
     vector<Token*> primaryTokens;
     vector<Modifier*> powerMods;
+    Strategy *_strategy;
 };
 
 

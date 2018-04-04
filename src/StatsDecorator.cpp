@@ -8,3 +8,4 @@ StatsDecorator::StatsDecorator(StatsObserver *s) {this->_decoratedObserver = s;}
 void StatsDecorator::Update(){
     this->_decoratedObserver->Update();
 }
+

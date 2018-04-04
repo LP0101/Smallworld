@@ -92,25 +92,29 @@ void GameEngine::init() {
     statsSubject = new StatsSubject(map);
     statsSubject->setPlayers(players);
     statsObserver = new undecoratedObserver(statsSubject);
-    statsSubject->Detach(statsObserver);
+//    statsSubject->Detach(statsObserver);
 //    statsObserver = new BaseObserverDecorator(statsObserver);
 //    statsSubject->Attach(statsObserver);
-    statsObserver = new ConquestDecorator(statsObserver,statsSubject);
-    statsSubject->Attach(statsObserver);
-    statsSubject->Detach(statsObserver);
-    statsObserver=new HandDecorator(statsObserver,statsSubject);
-    statsSubject->Attach(statsObserver);
-    statsSubject->Detach(statsObserver);
-    statsObserver = new CoinsDecorator(statsObserver, statsSubject);
-    statsSubject->Attach(statsObserver);
-    cout << endl;
-    cout << typeid(statsObserver).name() << endl;
+//    statsObserver = new ConquestDecorator(statsObserver,statsSubject);
+//    statsSubject->Attach(statsObserver);
+//    statsSubject->Detach(statsObserver);
+//    statsObserver=new HandDecorator(statsObserver,statsSubject);
+//    statsSubject->Attach(statsObserver);
+//    statsSubject->Detach(statsObserver);
+//    statsObserver = new CoinsDecorator(statsObserver, statsSubject);
+//    statsSubject->Attach(statsObserver);
+//    cout << statsObserver->getUnder()->getType() << endl;
+//    removeDecorator("conquest");
 }
 
 void GameEngine::gameLoop() {
     while(turns < MAX_TURNS+1){
         cout << "It is turn " << turns << " out of " << MAX_TURNS << endl;
         statsSubject->setTurn(turns);
+        if(showDecoratorOptions){
+            setDecorators();
+            removeDecorators();
+        }
         for(auto currentPlayer : players){
             cout << "Current player is: " << currentPlayer->getName() << endl;
             phaseSubject->setPlayer(currentPlayer->getName());
@@ -145,6 +149,15 @@ bool GameEngine::parse(string command, Player * p) {
     }
     if(command == "help"){
         help();
+        return true;
+    }
+    if(command == "strategize"){
+        int rein=0;
+        if(currentPhase == "retreat" || currentPhase == "reinforce")
+            rein = 1;
+        else
+            rein = 0;
+        p->Strategize(rein);
         return true;
     }
     vector<string> commands = split(command);
@@ -364,6 +377,10 @@ bool GameEngine::show(vector<string> commands, Player *p) {
         cout << name << ":\nPrimary: " << primary <<"\nSecondary: " << secondary << endl;
         return true;
     }
+    else if(commands[1] == "info"){
+        statsSubject->Notify();
+        return true;
+    }
     else{
         cout << "Invalid command" << endl;
         return true;
@@ -544,4 +561,129 @@ vector<string> GameEngine::split(string s){
     std::vector<std::string> vstrings(begin, end);
 //    std::copy(vstrings.begin(), vstrings.end(), std::ostream_iterator<std::string>(std::cout, "\n"));
     return vstrings;
+}
+
+bool GameEngine::removeDecorator(string decorator) {
+    StatsObserver* temp = statsObserver;
+    StatsObserver* onTop = nullptr;
+    while(temp->getType() != "undecorated"){
+        if(temp->getType() == decorator){
+            if(onTop==nullptr){
+                statsSubject->Detach(statsObserver);
+                statsObserver = temp->getUnder();
+                statsSubject->Attach(statsObserver);
+//                delete temp;
+                return true;
+            }
+            else{
+                onTop->setUnder(temp->getUnder());
+//                statsObserver = temp->getUnder();
+//                delete temp;
+                return true;
+            }
+        }
+        else{
+            onTop = temp;
+            temp = temp->getUnder();
+        }
+    }
+    cout << "Not found!" << endl;
+    return false;
+}
+bool GameEngine::setDecorators() {
+    bool repeat= true;
+    while(repeat) { //will only proceded when input is correct
+        cout << "1: Conquest\n2: Hands\n3: Coins\n0: Exit\n";
+        int decorator;
+        cout << "Which Decorator would you like to attach?" << endl;
+        cin >> ws;
+        cin >> decorator;
+        if(cin.fail()){
+            cin.clear(); // clears error flags
+            cin.ignore(999,'\n'); // the first parameter is just some arbitrarily large value, the second param being the character to ignore till
+            cout << "Please enter a valid number" << endl;
+            continue;
+        }
+        switch(decorator){
+            case 1:{
+                if(decorators[0]){
+                    cout << "Already attached!" << endl;
+                    break;
+                }
+                statsSubject->Detach(statsObserver);
+                statsObserver=new ConquestDecorator(statsObserver,statsSubject);
+                statsSubject->Attach(statsObserver);
+                decorators[0]=true;
+            } break;
+            case 2:{
+                if(decorators[1]){
+                    cout << "Already attached!" << endl;
+                    break;
+                }
+                statsSubject->Detach(statsObserver);
+                statsObserver = new HandDecorator(statsObserver,statsSubject);
+                statsSubject->Attach(statsObserver);
+                decorators[1]=true;
+            } break;
+            case 3:{
+                if(decorators[2]){
+                    cout << "Already attached!" << endl;
+                    break;
+                }
+                statsSubject->Detach(statsObserver);
+                statsObserver = new CoinsDecorator(statsObserver,statsSubject);
+                statsSubject->Attach(statsObserver);
+                decorators[2] = true;
+            } break;
+            case 0:{
+                repeat = false;
+            }break;
+        }
+    }
+}
+bool GameEngine::removeDecorators(){
+    bool repeat= true;
+    while(repeat) { //will only proceded when input is correct
+        cout << "1: Conquest\n2: Hands\n3: Coins\n0: Exit\n";
+        int decorator;
+        cout << "Which Decorator would you like to remove?" << endl;
+        cin >> ws;
+        cin >> decorator;
+        if(cin.fail()){
+            cin.clear(); // clears error flags
+            cin.ignore(999,'\n'); // the first parameter is just some arbitrarily large value, the second param being the character to ignore till
+            cout << "Please enter a valid number" << endl;
+            continue;
+        }
+        switch(decorator){
+            case 1:{
+                removeDecorator("conquest");
+                decorators[0] = false;
+            } break;
+            case 2:{
+                removeDecorator("hand");
+                decorators[1]=false;
+            } break;
+            case 3:{
+                removeDecorator("coins");
+                decorators[2]=false;
+            } break;
+            case 0:{
+                repeat = false;
+            }break;
+        }
+
+    }
+    string input;
+    cout << "Would you like to be shown this prompt again?" << endl;
+    while(true) {
+        cin >> ws;
+        cin >> input;
+        if(input == "y")
+            break;
+        if(input =="n"){
+            showDecoratorOptions = false;
+            break;
+        }
+    }
 }

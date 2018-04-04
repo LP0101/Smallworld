@@ -5,7 +5,6 @@
 #include "ConquestDecorator.h"
 
 ConquestDecorator::ConquestDecorator(StatsObserver *s, StatsSubject *su) : StatsDecorator(s){
-   cout << "Decorated" << endl;
     _undecorated = s;
     _subject = su;
 }
@@ -45,3 +44,5 @@ string ConquestDecorator::barGraph() {
 }
 
 string ConquestDecorator::getType() {return "conquest";}
+StatsObserver* ConquestDecorator::getUnder() {return _undecorated;}
+void ConquestDecorator::setUnder(StatsObserver *under) {StatsDecorator::_decoratedObserver = under;_undecorated=under;}

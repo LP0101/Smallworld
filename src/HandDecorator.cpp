@@ -20,3 +20,5 @@ void HandDecorator::Update() {
     cout << "\n";
 }
 string HandDecorator::getType() {return "hand";}
+StatsObserver* HandDecorator::getUnder() {return _undecorated;}
+void HandDecorator::setUnder(StatsObserver *under) {StatsDecorator::_decoratedObserver = under;_undecorated=under;}

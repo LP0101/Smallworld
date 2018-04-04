@@ -53,6 +53,7 @@ public:
     void setPlayer(string node, string p);
     bool isNode(string node);
     std::map<std::string,int> zonesControlled();
+    vector<string> getAdjacent(string node);
 
     //LINK METHODS
     bool addLink(string from, string to);

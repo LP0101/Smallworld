@@ -12,6 +12,8 @@ public:
     explicit undecoratedObserver(StatsSubject *s);
     void Update();
     string getType();
+    StatsObserver* getUnder();
+    void setUnder(StatsObserver* under);
 
 protected:
     StatsSubject *_subject;

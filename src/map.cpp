@@ -360,3 +360,10 @@ std::map<string,int> Map::zonesControlled(){
 //    }
     return zones;
 };
+vector<string> Map::getAdjacent(string node) {
+    vector<string> temp;
+    for(auto n : nodes[node]->getAdjacent()){
+        temp.push_back(n->getName());
+    }
+    return temp;
+}
