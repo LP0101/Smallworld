@@ -45,7 +45,7 @@ public:
     void reinforce(string node, int i);
     void abandon(string node);
     Map *getMap();
-    void Strategize(int reinforce);
+    void Strategize(bool reinforce,bool conquer);
     void setStrategy(Strategy* strategy);
 
 private:

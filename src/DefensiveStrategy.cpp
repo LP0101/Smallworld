@@ -4,11 +4,11 @@
 
 #include "Strategy.h"
 
-ModerateStrategy::ModerateStrategy() {}
-ModerateStrategy::ModerateStrategy(Player *player) {_player=player;}
-ModerateStrategy::~ModerateStrategy() {}
+DefensiveStrategy::DefensiveStrategy() {}
+DefensiveStrategy::DefensiveStrategy(Player *player) {_player = player;}
+DefensiveStrategy::~DefensiveStrategy() {}
 
-void ModerateStrategy::Execute(bool reinforce, bool conquer) {
+void DefensiveStrategy::Execute(bool reinforce, bool conquer) {
     vector<string> temp = _player->getNodes();
     vector<string> temp2;
     shuffle(temp.begin(), temp.end(), std::default_random_engine(time(NULL)));
@@ -20,7 +20,7 @@ void ModerateStrategy::Execute(bool reinforce, bool conquer) {
                 if (_player->getMap()->getFaction(node) == _player->getPrimary()->getRace()->getName())
                     owned++;
             }
-            if (owned > 4){
+            if (owned >= _player->getPrimary()->getTokens()/2){ //at least 2 per territory
                 cout << "Go into decline" << endl;
                 return;
             }
@@ -44,13 +44,15 @@ void ModerateStrategy::Execute(bool reinforce, bool conquer) {
         }
         cout << "Conquer any edge" << endl;
     }
-    else{
-        for(auto node : temp){
-            if(_player->getMap()->getFaction(node) == _player->getPrimary()->getRace()->getName()){
-                cout << "Reinforce " << node << endl;
-                return;
+    else {
+        for (auto node : temp) {
+            if (_player->getMap()->getFaction(node) == _player->getPrimary()->getRace()->getName()) {
+                if(_player->getMap()->getReinforcements(node) < 2){
+                    cout << "Reinfoce " << node << " with 1 unit" << endl;
+                    return;
+                }
             }
         }
+        cout << "Reinforce " << temp[0] << endl;
     }
-
 }

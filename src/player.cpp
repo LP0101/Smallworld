@@ -14,7 +14,7 @@ Player::Player(string n, Factions *f, Map *m, Gamebox *g){
     dice = new rDice();
     box = g;
     summarySheet = "Rules and stuff";
-    _strategy=new RandomStrategy(this);
+    _strategy=new ModerateStrategy(this);
 
     //TEST FUNCTION IGNORE
 //    for(int i=0; i<20;i++){
@@ -248,7 +248,7 @@ Faction* Player::getSecondary() {return secondary;}
 
 Map* Player::getMap() {return map;}
 
-void Player::Strategize(int reinforce) {_strategy->Execute(reinforce);}
+void Player::Strategize(bool reinforce, bool conquer) {_strategy->Execute(reinforce,conquer);}
 void Player::setStrategy(Strategy *strategy) {
     delete _strategy;
     _strategy = strategy;

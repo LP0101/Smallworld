@@ -126,7 +126,6 @@ void GameEngine::gameLoop() {
             endPhase(currentPlayer);
             firstConquest = false; //MOVE THIS
             lostZone.clear();      //MOVE THIS
-            statsSubject->Notify();
         }
 
         turns++;
@@ -152,12 +151,12 @@ bool GameEngine::parse(string command, Player * p) {
         return true;
     }
     if(command == "strategize"){
-        int rein=0;
+        bool rein=false;
         if(currentPhase == "retreat" || currentPhase == "reinforce")
-            rein = 1;
+            rein = true;
         else
-            rein = 0;
-        p->Strategize(rein);
+            rein = false;
+        p->Strategize(rein,didConquer);
         return true;
     }
     vector<string> commands = split(command);
@@ -457,7 +456,38 @@ bool GameEngine::abandon(vector<string> commands, Player *p) {
 }
 
 void GameEngine::prePhase(Player *p) {
-    for(auto player : players){
+    int choice;
+    while(true) {
+        cout << "Choose a strategy for this turn\n1. Random\n2. Moderate\n3. Defensive\n4. Aggressive" << endl;
+        cin >> ws;
+        cin >> choice;
+        if (cin.fail()) {
+            cin.clear(); // clears error flags
+            cin.ignore(999,
+                       '\n'); // the first parameter is just some arbitrarily large value, the second param being the character to ignore till
+            cout << "Please enter a valid number" << endl;
+            continue;
+        }
+        if(choice > 4 || choice < 1){
+            cout << "Enter a valid number" << endl;
+            continue;
+        }
+        break;
+    }
+    switch(choice){
+        case 1:{
+            p->setStrategy(new RandomStrategy(p));
+        }break;
+        case 2:{
+            p->setStrategy(new ModerateStrategy(p));
+        }break;
+        case 3:{
+            p->setStrategy(new DefensiveStrategy(p));
+        }break;
+        case 4:{
+            p->setStrategy(new AggressiveStrategy(p));
+        }break;
+        default: {}
     }
 }
 
@@ -501,6 +531,7 @@ void GameEngine::mainPhase(Player *p) {
 
 void GameEngine::reinforcePhase(Player *p) {
     currentPhase="reinforce";
+    cout << "========== Reinforce Phase ==========" << endl;
     if(p->getPrimary() == nullptr || p->getPrimary()->getDecline()){
         cout << "In decline, can't reinforce" << endl;
         return;
@@ -538,7 +569,9 @@ void GameEngine::retreatPhase(Player *p) {
 
 void GameEngine::scorePhase(Player *p) {
     currentPhase="score";
-    cout << p->getName() <<" just scored " << p->scores(pillaged) << " points!" << endl;
+    phaseSubject->setAction("scored"+to_string(p->scores(pillaged)) + " points!");
+    phaseSubject->Notify();
+//    cout << p->getName() <<" just scored " << p->scores(pillaged) << " points!" << endl;
 }
 void GameEngine::endPhase(Player *p) {
    for(auto lost : lostZone){
