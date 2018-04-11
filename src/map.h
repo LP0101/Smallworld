@@ -54,6 +54,7 @@ public:
     bool isNode(string node);
     std::map<std::string,int> zonesControlled();
     vector<string> getAdjacent(string node);
+    vector<string> getNodesV();
 
     //LINK METHODS
     bool addLink(string from, string to);

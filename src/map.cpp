@@ -367,3 +367,10 @@ vector<string> Map::getAdjacent(string node) {
     }
     return temp;
 }
+vector<string> Map::getNodesV(){
+    vector<string> temp;
+    for(auto const& x : getNodes()){
+        temp.push_back(x.first);
+    }
+    return temp;
+}

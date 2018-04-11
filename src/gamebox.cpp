@@ -5,12 +5,13 @@
 #include "gamebox.h"
 
 Gamebox::Gamebox() {
-    for(int i=0;i<35;i++){
+    for(int i=0;i<1000;i++){
         oneCoins.push_back(new vCoin(1));
     }
-    for(int i=0;i<20;i++){ threeCoins.push_back(new vCoin(3));}
-    for(int i=0;i<24;i++){ fiveCoins.push_back(new vCoin(5));}
-    for(int i=0;i<24;i++){ tenCoins.push_back(new vCoin(10));}
+    for(int i=0;i<1000;i++){ threeCoins.push_back(new vCoin(3));}
+    for(int i=0;i<1000;i++){ fiveCoins.push_back(new vCoin(5));}
+    for(int i=0;i<1000;i++){ tenCoins.push_back(new vCoin(10));}
+    //just add a ton of coins so I don't have to worry about banker logic
 
     for(int i=0;i<15;i++){ tokens.push_back(new Token("Amazons"));}
     for(int i=0;i<8;i++){ tokens.push_back(new Token("Dwarves"));}

@@ -36,13 +36,18 @@ void GameEngine::init() {
     int acceptedValues[] = {2,3,4,5};
 
     while(true) { //will only proceded when input is correct
-        cout << "How many players?" << endl;
-        cin >> ws;
-        cin >> playerCount;
-        if(cin.fail()){
-            cin.clear(); // clears error flags
-            cin.ignore(999,'\n'); // the first parameter is just some arbitrarily large value, the second param being the character to ignore till
-            cout << "Please enter a valid number" << endl;
+        try {
+            cout << "How many players?" << endl;
+            cin >> ws;
+            cin >> playerCount;
+            if (cin.fail()) {
+                cin.clear(); // clears error flags
+                cin.ignore(999,
+                           '\n'); // the first parameter is just some arbitrarily large value, the second param being the character to ignore till
+                throw "Invalid input";
+            }
+        }catch(char const*){
+            cerr << "Please enter a valid number" << endl;
             continue;
         }
 
@@ -105,6 +110,9 @@ void GameEngine::init() {
 //    statsSubject->Attach(statsObserver);
 //    cout << statsObserver->getUnder()->getType() << endl;
 //    removeDecorator("conquest");
+    for(auto currentPlayer : players){
+        prePhase(currentPlayer);
+    }
 }
 
 void GameEngine::gameLoop() {
@@ -118,7 +126,7 @@ void GameEngine::gameLoop() {
         for(auto currentPlayer : players){
             cout << "Current player is: " << currentPlayer->getName() << endl;
             phaseSubject->setPlayer(currentPlayer->getName());
-            prePhase(currentPlayer);
+//            prePhase(currentPlayer);
             pillaged=0;
             mainPhase(currentPlayer);
             reinforcePhase(currentPlayer);
@@ -458,7 +466,7 @@ bool GameEngine::abandon(vector<string> commands, Player *p) {
 void GameEngine::prePhase(Player *p) {
     int choice;
     while(true) {
-        cout << "Choose a strategy for this turn\n1. Random\n2. Moderate\n3. Defensive\n4. Aggressive" << endl;
+        cout << "Choose a strategy \n1. Random\n2. Moderate\n3. Defensive\n4. Aggressive" << endl;
         cin >> ws;
         cin >> choice;
         if (cin.fail()) {
@@ -496,14 +504,20 @@ void GameEngine::mainPhase(Player *p) {
     conquered = 0;
     while(p->getPrimary() == nullptr || p->getPrimary()->getDecline()){
         int choice;
-        cout << "Choose a faction" << endl;
-        parse("show races", nullptr);
-        cin >> ws;
-        cin >> choice;
-        if(cin.fail()){
-            cin.clear(); // clears error flags
-            cin.ignore(999,'\n'); // the first parameter is just some arbitrarily large value, the second param being the character to ignore till
-            cout << "Please enter a valid number" << endl;
+        try {
+            cout << "Choose a faction" << endl;
+            parse("show races", nullptr);
+            cin >> ws;
+            cin >> choice;
+            if (cin.fail()) {
+                cin.clear(); // clears error flags
+                cin.ignore(999,
+                           '\n'); // the first parameter is just some arbitrarily large value, the second param being the character to ignore till
+                throw "Invalid input";
+                continue;
+            }
+        }catch(char const*){
+            cerr << "Please enter a valid number" << endl;
             continue;
         }
         if(choice < 0 || choice > 5){
@@ -625,16 +639,21 @@ bool GameEngine::removeDecorator(string decorator) {
 }
 bool GameEngine::setDecorators() {
     bool repeat= true;
+    int decorator;
     while(repeat) { //will only proceded when input is correct
-        cout << "1: Conquest\n2: Hands\n3: Coins\n0: Exit\n";
-        int decorator;
-        cout << "Which Decorator would you like to attach?" << endl;
-        cin >> ws;
-        cin >> decorator;
-        if(cin.fail()){
-            cin.clear(); // clears error flags
-            cin.ignore(999,'\n'); // the first parameter is just some arbitrarily large value, the second param being the character to ignore till
-            cout << "Please enter a valid number" << endl;
+        try {
+            cout << "1: Conquest\n2: Hands\n3: Coins\n0: Exit\n";
+            cout << "Which Decorator would you like to attach?" << endl;
+            cin >> ws;
+            cin >> decorator;
+            if (cin.fail()) {
+                cin.clear(); // clears error flags
+                cin.ignore(999,
+                           '\n'); // the first parameter is just some arbitrarily large value, the second param being the character to ignore till
+                  throw "Invalid Input";
+            }
+        }catch(char const*){
+            cerr << "Please enter a valid number" << endl;
             continue;
         }
         switch(decorator){
@@ -676,16 +695,20 @@ bool GameEngine::setDecorators() {
 }
 bool GameEngine::removeDecorators(){
     bool repeat= true;
+    int decorator;
     while(repeat) { //will only proceded when input is correct
-        cout << "1: Conquest\n2: Hands\n3: Coins\n0: Exit\n";
-        int decorator;
-        cout << "Which Decorator would you like to remove?" << endl;
-        cin >> ws;
-        cin >> decorator;
-        if(cin.fail()){
-            cin.clear(); // clears error flags
-            cin.ignore(999,'\n'); // the first parameter is just some arbitrarily large value, the second param being the character to ignore till
-            cout << "Please enter a valid number" << endl;
+        try {
+            cout << "1: Conquest\n2: Hands\n3: Coins\n0: Exit\n";
+            cout << "Which Decorator would you like to remove?" << endl;
+            cin >> ws;
+            cin >> decorator;
+            if (cin.fail()) {
+                cin.clear(); // clears error flags
+                cin.ignore(999,'\n'); // the first parameter is just some arbitrarily large value, the second param being the character to ignore till
+                throw "Invalid input";
+            }
+        }catch(char const*){
+            cerr << "Please enter a valid number" << endl;
             continue;
         }
         switch(decorator){

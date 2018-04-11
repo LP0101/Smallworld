@@ -32,7 +32,14 @@ void RandomStrategy::Execute(bool reinforce, bool conquer){
                 }
             }
         }
-        cout << "Conquer any edge" << endl;
+        vector<string> temp3=_player->getMap()->getNodesV();
+        shuffle(temp3.begin(),temp3.end(),std::default_random_engine(time(NULL)));
+        for(auto const& node: _player->getMap()->getNodesV()) {
+            if (_player->getMap()->isEdge(node)) {
+                cout << "Conquer " << node << endl;
+                break;
+            }
+        }
     }
     else{
         for(auto node : temp){
