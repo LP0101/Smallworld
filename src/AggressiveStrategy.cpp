@@ -20,7 +20,7 @@ void AggressiveStrategy::Execute(bool reinforce, bool conquer) {
                 if (_player->getMap()->getFaction(node) == _player->getPrimary()->getRace()->getName())
                     owned++;
             }
-            if (owned >= _player->getPrimary()->getTokens()-4){ //stretched thin
+            if (owned >= _player->getTokens()-3){ //stretched thin
                 cout << "Go into decline" << endl;
                 return;
             }
@@ -36,21 +36,28 @@ void AggressiveStrategy::Execute(bool reinforce, bool conquer) {
                         if (_player->getPrimary()->getPower()->getName() != "Seafaring" &&
                             _player->getMap()->getTerrain(adj) == "Water")
                             continue;
-                        cout << "You should conquer " << adj << endl;
+                        cout << "conquer " << adj << endl;
                         return;
                     }
                 }
             }
         }
-        cout << "Conquer any edge" << endl;
+        vector<string> temp3 = _player->getMap()->getNodesV();
+        shuffle(temp3.begin(), temp3.end(), std::default_random_engine(time(NULL+20)));
+        for (auto const &node: _player->getMap()->getNodesV()) {
+            if (_player->getMap()->isEdge(node)) {
+                cout << "conquer " << node << endl;
+                return;
+            }
+        }
     }
     else {
         for (auto node : temp) {
             if (_player->getMap()->getFaction(node) == _player->getPrimary()->getRace()->getName()) {
-                    cout << "Reinfoce " << node << " with 1 unit" << endl;
+                    cout << "reinforce " << node << " 1" << endl;
                     return;
                 }
         }
-        cout << "Reinforce " << temp[0] << endl;
+        cout << "reinforce " << temp[0] << " " << _player->getTokens() << endl;
     }
 }

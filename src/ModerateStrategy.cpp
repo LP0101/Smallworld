@@ -12,15 +12,15 @@ void ModerateStrategy::Execute(bool reinforce, bool conquer) {
     vector<string> temp = _player->getNodes();
     vector<string> temp2;
     shuffle(temp.begin(), temp.end(), std::default_random_engine(time(NULL)));
-    if(!reinforce){
-        if(!conquer) {
+    if(!reinforce) {
+        if (!conquer) {
             //check for how many nodes primary has
             int owned = 0;
             for (auto node : _player->getNodes()) {
                 if (_player->getMap()->getFaction(node) == _player->getPrimary()->getRace()->getName())
                     owned++;
             }
-            if (owned > 4){
+            if (owned > 5) {
                 cout << "Go into decline" << endl;
                 return;
             }
@@ -36,18 +36,26 @@ void ModerateStrategy::Execute(bool reinforce, bool conquer) {
                         if (_player->getPrimary()->getPower()->getName() != "Seafaring" &&
                             _player->getMap()->getTerrain(adj) == "Water")
                             continue;
-                        cout << "You should conquer " << adj << endl;
+                        cout << "conquer " << adj << endl;
                         return;
                     }
                 }
             }
         }
-        cout << "Conquer any edge" << endl;
+        vector<string> temp3 = _player->getMap()->getNodesV();
+        shuffle(temp3.begin(), temp3.end(), std::default_random_engine(time(NULL)));
+        for (auto const &node: _player->getMap()->getNodesV()) {
+            if (_player->getMap()->isEdge(node)) {
+                cout << "conquer " << node << endl;
+                return;
+            }
+        }
     }
     else{
+        int reinforcements = 1 + ( std::rand() % ( _player->getTokens() - 1 + 1 ) );
         for(auto node : temp){
             if(_player->getMap()->getFaction(node) == _player->getPrimary()->getRace()->getName()){
-                cout << "Reinforce " << node << endl;
+                cout << "reinforce " << node << " " << reinforcements << endl;
                 return;
             }
         }

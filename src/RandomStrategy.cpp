@@ -26,7 +26,7 @@ void RandomStrategy::Execute(bool reinforce, bool conquer){
                         if (_player->getPrimary()->getPower()->getName() != "Seafaring" &&
                             _player->getMap()->getTerrain(adj) == "Water")
                             continue;
-                        cout << "You should conquer " << adj << endl;
+                        cout << "conquer " << adj << endl;
                         return;
                     }
                 }
@@ -36,15 +36,16 @@ void RandomStrategy::Execute(bool reinforce, bool conquer){
         shuffle(temp3.begin(),temp3.end(),std::default_random_engine(time(NULL)));
         for(auto const& node: _player->getMap()->getNodesV()) {
             if (_player->getMap()->isEdge(node)) {
-                cout << "Conquer " << node << endl;
-                break;
+                cout << "conquer " << node << endl;
+                return;
             }
         }
     }
     else{
+        int reinforcements = 1 + ( std::rand() % ( _player->getTokens() - 1 + 1 ) );
         for(auto node : temp){
             if(_player->getMap()->getFaction(node) == _player->getPrimary()->getRace()->getName()){
-                cout << "Reinforce " << node << endl;
+                cout << "reinforce " << node << " " <<  reinforcements << endl;
                 return;
             }
         }
